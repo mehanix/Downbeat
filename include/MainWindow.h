@@ -9,6 +9,7 @@ class MainWindow : public sf::RenderWindow{
     ///////////////////////
     ///       GUI       ///
     ///////////////////////
+    sf::Font font;
     Button b = Button();
     sf::Texture bkgTexture;
     sf::Sprite bkg;
@@ -19,6 +20,11 @@ class MainWindow : public sf::RenderWindow{
     sf::Texture logoTexture;
     sf::Sprite logo;
 
+    sf::Text adLabel;
+
+    //TODO remove
+    sf::Texture keyTexture;
+    sf::Sprite key;
     public:
        MainWindow(sf::VideoMode v, std::string title);
         void loadLayout();
