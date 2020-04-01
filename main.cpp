@@ -2,6 +2,7 @@
 #include <iostream>
 int main()
 {
-    MainWindow w(sf::VideoMode(800, 500), "Downbeat");
+    MainWindow mainWindow(sf::VideoMode(800, 600), "Downbeat");
+    
     return 0;
 }

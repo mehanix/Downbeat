@@ -5,5 +5,7 @@ CFLAGS = -Wall -g -c
 build:downbeat
 
 downbeat: 
-	g++ -g -o downbeat.out main.cpp src/*.cpp -I./include -lsfml-system -lsfml-graphics -lsfml-window
+	g++ -g -o ./bin/downbeat.out main.cpp src/*.cpp src/GUI/*.cpp -I./include -lsfml-system -lsfml-graphics -lsfml-window
 
+run:
+	./bin/downbeat.out
