@@ -1,3 +1,5 @@
+
+
 ![logo](https://i.imgur.com/MJmaTHC.png)
 ---
 Small playable virtual piano, written in C++ (POO, anul I, sem II)
