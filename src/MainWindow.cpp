@@ -38,13 +38,6 @@ void MainWindow::loadLayout()
     adLabel.setFillColor(sf::Color(26,26,26));
     adLabel.setPosition(515,70);
 
-    //TODO Remove: key
-    keyTexture.loadFromFile("res/piano/key_white.png");
-    keyTexture.setRepeated(true);
-    key = sf::Sprite(keyTexture,sf::IntRect(0,0,50,250));
-    key.setColor(sf::Color(255,255,255,200));
-    key.setPosition(70,270);
-
 }
 void MainWindow::render()
 {
@@ -56,7 +49,9 @@ void MainWindow::render()
         {
             if (event.type == sf::Event::Closed)
                 sf::RenderWindow::close();
+            
         }
+       
 
         sf::RenderWindow::clear(sf::Color(223,219,229,255));
         drawGUI();
@@ -70,5 +65,7 @@ void MainWindow::drawGUI()
         sf::RenderWindow::draw(panel);
         sf::RenderWindow::draw(logo);
         sf::RenderWindow::draw(adLabel);
-        sf::RenderWindow::draw(key);
+        for(auto &k:piano->getKeys()) {
+            sf::RenderWindow::draw(k->getSprite());
+        }
 }

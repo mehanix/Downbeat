@@ -1,0 +1,44 @@
+intrebari poo:
+
+1. daca fac o clasa A cu 4 variabile statice, si o extind cu 2 clase B si C
+obiectele de tip B/C au acces la variabilele statice ale lui A?
+e recomandat sa faci asa ceva? :)))
+
+2.Am clasa urmatoare
+
+Class A {
+
+ int x;
+ int y;
+ public:
+    A(x,y);
+}
+
+Undeva in alta clasa, in header scriu asa:
+
+   A ob;
+   
+Si in constructor:
+  ob = A(5,7);
+  
+  
+Chestia asta da eroare pt ca spune ca nu mai exista constructorul default.
+Asa ca l-am facut asa:
+
+A() {}
+
+Intrebarea e:ce se intampla cu memoria cand creez obiectul ob?
+Fac intai un obiect gol, el e sters si inlocuit cu cel facut cu celalalt constructor?
+Care ar fi "best practice" pentru asta?
+
+3. Daca fac o clasa A singleton, mai are sens sa folosesc chestii statice?
+	
+	A->getInstance().getVal()
+vs
+	A.getVal()
+	
+
+4. Mai trebuie sa scriu destructor pentru un obiect cu un vector de obiecte in el
+daca n-am de gand sa distrug obiectul ala vreodata?
+cand termin programul se dezaloca tot?
+Sau raman cu vectorul ala in RAM pana la restart

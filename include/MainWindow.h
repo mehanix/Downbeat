@@ -4,13 +4,14 @@
 #include <string>
 #include <iostream>
 #include "Button.h"
+#include "Key.h"
+#include "Piano.h"
 /* ViewWindow: class that creates and renders the main GUI window */
 class MainWindow : public sf::RenderWindow{
     ///////////////////////
     ///       GUI       ///
     ///////////////////////
     sf::Font font;
-    Button b = Button();
     sf::Texture bkgTexture;
     sf::Sprite bkg;
 
@@ -23,8 +24,12 @@ class MainWindow : public sf::RenderWindow{
     sf::Text adLabel;
 
     //TODO remove
-    sf::Texture keyTexture;
-    sf::Sprite key;
+    /*sf::Sprite key;
+    sf::Sprite key2;
+    sf::Texture keyTexture2;
+    sf::Sprite key3;*/
+
+    Piano *piano = piano->getInstance();
     public:
        MainWindow(sf::VideoMode v, std::string title);
         void loadLayout();
