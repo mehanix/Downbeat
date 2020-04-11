@@ -6,8 +6,11 @@
 class BlackKey : public Key {
 
     public:
-    BlackKey(sf::Texture& t, sf::Texture& t_Pressed, sf::Vector2f pos, std::string kcode);
+    BlackKey(sf::Texture& t, sf::Texture& t_Pressed);
     void playSound();
+    void setPosition(int x,int y) override;
+    sf::Sprite& getSprite() override;
+
 };
 
 #endif

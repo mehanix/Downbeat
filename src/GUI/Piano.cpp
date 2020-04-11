@@ -1,6 +1,7 @@
 #include "Piano.h"
 #include "MainWindow.h"
 #include "WhiteKey.h"
+#include "BlackKey.h"
 Piano::Piano()
 {
     tKeyWhite.loadFromFile("res/piano/key_white.png");
@@ -9,15 +10,79 @@ Piano::Piano()
     tKeyBlackPressed.loadFromFile("res/piano/key_black_pressed.png");
     int pos = 64;
     std::cout << "sunt un pian" << std::endl;
+    /// Adauga clape albe
     for (int i = 0; i < 14; i++)
     {
-        piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed, sf::Vector2f(pos, 280), "a"));
-        pos += 48;
+        piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed));
     }
+    /// Adauga clape negre
+    for (int i = 0; i < 10; i++)
+    {
+        piano.push_back(new BlackKey(tKeyBlack, tKeyBlackPressed));
+    }
+
+    setPositions();
 }
 
 std::vector<Key *> &Piano::getKeys()
 {
     return piano;
 }
+
+/* calculeaza si seteaza pozitiile clapelor pe ecran */
+void Piano::setPositions()
+{
+
+    int whiteX = 64;
+    int blackX = 94;
+    int blackCount = 0;
+    int Y = 280;
+
+    // iteram prin clape
+    for (auto &key : piano)
+    {
+
+        // daca e clapa alba
+        try
+        {
+            if (dynamic_cast<WhiteKey *>(key))
+            {
+                key->setPosition(whiteX, Y);
+                whiteX += 48;
+            }
+            else if (dynamic_cast<BlackKey *>(key))
+            {
+                blackCount++;
+                if (blackCount == 3 || blackCount == 6 || blackCount == 8)
+                    blackX += 48;
+                key->setPosition(blackX, Y);
+                blackX += 48;
+            }
+            else
+                throw 1438;
+        }
+        catch (int errCode)
+        {
+            if (errCode == 1438)
+            {
+                std::cout << "Bad object in piano array" << '\n';
+            }
+        }
+    }
+}
+
+Key* Piano::findKeyClicked(sf::Vector2f mouse) {
+
+    //std::cout<<mouse.x<<" "<<mouse.y<<'\n';
+    for(int i = piano.size()-1; i>=0;i--) {
+        sf::FloatRect bounds = piano[i]->getSprite().getGlobalBounds();
+        if (bounds.contains(mouse))
+        {
+            std::cout<<"click pe clapa\n";
+            break;
+        }
+    }
+    
+}
+
 Piano *Piano::instance = nullptr;

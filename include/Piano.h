@@ -2,6 +2,7 @@
 #define PIANO_H_INCLUDED
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <memory>
 #include "Key.h"
 /**
  * Piano: Singleton class that holds array of piano keys
@@ -38,7 +39,9 @@ public:
         std::cout << "papa pian" << std::endl;
     }
 
+    void setPositions();
     std::vector<Key *> &getKeys();
+    Key* findKeyClicked(sf::Vector2f mouse);
 };
 
 #endif

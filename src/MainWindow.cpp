@@ -50,6 +50,13 @@ void MainWindow::render()
             if (event.type == sf::Event::Closed)
                 sf::RenderWindow::close();
             
+            if (event.type == sf::Event::MouseButtonPressed)
+{
+    if (event.mouseButton.button == sf::Mouse::Left)
+    {
+        auto key = piano->findKeyClicked((*this).mapPixelToCoords(sf::Mouse::getPosition((*this))));
+    }
+}
         }
        
 

@@ -8,6 +8,7 @@
 */
 class Key {
 
+    protected:
     sf::Texture texture;
     sf::Texture texturePressed;
     sf::Sprite sprite;
@@ -16,10 +17,10 @@ class Key {
     std::string kbKeyCode;    
     public:
     Key();
-    Key(sf::Texture& t, sf::Texture& t_Pressed, sf::Vector2f pos, std::string kcode);
-    virtual sf::Sprite& getSprite();
+    Key(sf::Texture& t, sf::Texture& t_Pressed);
+    virtual sf::Sprite& getSprite() = 0;
     virtual void playSound() = 0;
-
+    virtual void setPosition(int x, int y) = 0;
     
     ~Key() {
         std::cout<<"papa clapa"<<std::endl;
