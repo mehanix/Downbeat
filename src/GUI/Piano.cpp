@@ -78,10 +78,10 @@ Key* Piano::findKeyClicked(sf::Vector2f mouse) {
         sf::FloatRect bounds = piano[i]->getSprite().getGlobalBounds();
         if (bounds.contains(mouse))
         {
-            std::cout<<"click pe clapa\n";
-            break;
+            return piano[i];
         }
     }
+    return nullptr;
     
 }
 

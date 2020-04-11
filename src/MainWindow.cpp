@@ -16,32 +16,31 @@ void MainWindow::loadLayout()
     //background image/pattern
     bkgTexture.loadFromFile("res/gui/piano.png");
     bkgTexture.setRepeated(true);
-    bkg = sf::Sprite(bkgTexture,sf::IntRect(0,0,getSize().x,getSize().y));
-    bkg.setColor(sf::Color(0,0,0,35));
+    bkg = sf::Sprite(bkgTexture, sf::IntRect(0, 0, getSize().x, getSize().y));
+    bkg.setColor(sf::Color(0, 0, 0, 35));
 
     //main panel
     panelTexture.loadFromFile("res/gui/panel2.png");
-    panel = sf::Sprite(panelTexture,sf::IntRect(0,0,718,518));
-    panel.setPosition(41,41);
+    panel = sf::Sprite(panelTexture, sf::IntRect(0, 0, 718, 518));
+    panel.setPosition(41, 41);
 
     //app logo
     logoTexture.loadFromFile("res/gui/logo.png");
     logoTexture.setSmooth(true);
     logo = sf::Sprite(logoTexture);
-    logo.setPosition(70,67);
-    logo.setScale(0.5f,0.5f);
+    logo.setPosition(70, 67);
+    logo.setScale(0.5f, 0.5f);
 
     //app label
     adLabel.setFont(font);
     adLabel.setString("easy to use virtual piano");
     adLabel.setCharacterSize(20);
-    adLabel.setFillColor(sf::Color(26,26,26));
-    adLabel.setPosition(515,70);
-
+    adLabel.setFillColor(sf::Color(26, 26, 26));
+    adLabel.setPosition(515, 70);
 }
 void MainWindow::render()
 {
-
+    Key *activeKey;
     while (sf::RenderWindow::isOpen())
     {
         sf::Event event;
@@ -49,30 +48,45 @@ void MainWindow::render()
         {
             if (event.type == sf::Event::Closed)
                 sf::RenderWindow::close();
-            
-            if (event.type == sf::Event::MouseButtonPressed)
-{
-    if (event.mouseButton.button == sf::Mouse::Left)
-    {
-        auto key = piano->findKeyClicked((*this).mapPixelToCoords(sf::Mouse::getPosition((*this))));
-    }
-}
-        }
-       
 
-        sf::RenderWindow::clear(sf::Color(223,219,229,255));
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    activeKey = piano->findKeyClicked(mapPixelToCoords(sf::Mouse::getPosition((*this))));
+                    if (activeKey == nullptr)
+                    {
+                        std::cout << "click pe nimic\n";
+                    }
+                    else
+                    {
+                        activeKey->setPressed(true);
+                    }
+                }
+            }
+            if(event.type == sf::Event::MouseButtonReleased) {
+                if(event.mouseButton.button == sf::Mouse::Left) {
+                    if(activeKey != nullptr) {
+                        activeKey->setPressed(false);
+                    }
+                } 
+            }
+        }
+
+        sf::RenderWindow::clear(sf::Color(223, 219, 229, 255));
         drawGUI();
         sf::RenderWindow::display();
     }
 }
 void MainWindow::drawGUI()
 {
-   // sf::RenderWindow::draw(b.getSprite());
-        sf::RenderWindow::draw(bkg);
-        sf::RenderWindow::draw(panel);
-        sf::RenderWindow::draw(logo);
-        sf::RenderWindow::draw(adLabel);
-        for(auto &k:piano->getKeys()) {
-            sf::RenderWindow::draw(k->getSprite());
-        }
+    // sf::RenderWindow::draw(b.getSprite());
+    sf::RenderWindow::draw(bkg);
+    sf::RenderWindow::draw(panel);
+    sf::RenderWindow::draw(logo);
+    sf::RenderWindow::draw(adLabel);
+    for (auto &k : piano->getKeys())
+    {
+        sf::RenderWindow::draw(k->getSprite());
+    }
 }

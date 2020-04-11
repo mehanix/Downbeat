@@ -10,6 +10,7 @@ class BlackKey : public Key {
     void playSound();
     void setPosition(int x,int y) override;
     sf::Sprite& getSprite() override;
+    void setPressed(bool value) override;
 
 };
 

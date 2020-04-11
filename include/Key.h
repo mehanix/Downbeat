@@ -21,7 +21,8 @@ class Key {
     virtual sf::Sprite& getSprite() = 0;
     virtual void playSound() = 0;
     virtual void setPosition(int x, int y) = 0;
-    
+    virtual void setPressed(bool value) = 0;
+
     ~Key() {
         std::cout<<"papa clapa"<<std::endl;
     }
