@@ -6,14 +6,52 @@ Small playable virtual piano, written in C++ (POO, anul I, sem II)
 
 **Cerințe obligatorii:**\
 🎹 Interfața grafica (în SDL, SFML, Qt, etc) cu API pentru C++ 🗹\
-🎹 RTTI\
-🎹 Abstract Classes\
+🎹 RTTI 🗹
+```cpp
+if (dynamic_cast<WhiteKey *>(key)) {
+
+    key->setPosition(whiteX, Y);
+    whiteX += 48;
+}
+```
+🎹 Abstract Classes  🗹
+```cpp
+class Key {
+
+    /*
+       ...
+    */
+    virtual sf::Sprite& getSprite() = 0;
+    virtual void playSound() = 0;
+    virtual void setPosition(int x, int y) = 0;
+};
+```
 🎹 Operatori (minim 4 * numărul oamenilor din echipa)\
 🎹 Heap Memory Allocation 🗹
 ```cpp
-piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed, sf::Vector2f(pos, 280), "a"));
+piano.cpp
+
+piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed));
 ```
-🎹 Exceptions\
+🎹 Exceptions 🗹
+```cpp
+piano.cpp
+
+try {
+    if (...) {
+    // ...
+    }
+    else
+        throw 1438;
+}
+catch (int errCode) {
+    if (errCode == 1438)
+    {
+        std::cout << "Bad object in piano array" << '\n';
+    }
+}
+
+```
 🎹 STL 🗹
 ```cpp
 #include <string>
