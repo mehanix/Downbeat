@@ -1,6 +1,7 @@
 #ifndef KEY_H_INCLUDED
 #define KEY_H_INCLUDED
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <string>
 #include <iostream>
 /* 
@@ -14,7 +15,9 @@ class Key {
     sf::Sprite sprite;
     sf::Text label;
     sf::Vector2f pos;
-    std::string kbKeyCode;    
+    std::string kbKeyCode;
+    sf::SoundBuffer buffer;  
+    sf::Sound sound;  
     public:
     Key();
     Key(sf::Texture& t, sf::Texture& t_Pressed);

@@ -43,7 +43,7 @@ void MainWindow::render()
 {
     while (sf::RenderWindow::isOpen())
     {
-        Key* activeKey;
+        Key *activeKey;
         sf::Event event;
         while (sf::RenderWindow::pollEvent(event))
         {
@@ -91,8 +91,8 @@ void MainWindow::render()
                 {
                     activeKey = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
                     activeKeys.insert(activeKey);
-                    if (activeKey!= nullptr)
-                     activeKey->setPressed(true);
+                    if (activeKey != nullptr)
+                        activeKey->setPressed(true);
                 }
 
                 /*for (auto &[key, pianoKeyIndex] : settings.getKbKeys().items())
@@ -108,17 +108,16 @@ void MainWindow::render()
                 }*/
             }
 
-            
             if (event.type == sf::Event::KeyReleased)
             {
-               if (settings.getKbKeys().contains(std::to_string(event.key.code)))
+                if (settings.getKbKeys().contains(std::to_string(event.key.code)))
                 {
-                Key* toBeDeleted = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
-                toBeDeleted->setPressed (false);
-                activeKeys.erase(toBeDeleted);
+                    Key *toBeDeleted = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
+                    toBeDeleted->setPressed(false);
+                    activeKeys.erase(toBeDeleted);
                 }
             }
-            
+
             /*
             // Structured bindings (C++17)
             for (auto &[key, pianoKeyIndex] : settings.getKbKeys().items())
