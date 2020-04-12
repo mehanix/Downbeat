@@ -25,7 +25,7 @@ void WhiteKey::setPressed(bool value) {
     }
     else {
         sprite.setTexture(texture);
-        sound.stop();
+        //sound.stop();
     }
 }
 
