@@ -1,9 +1,10 @@
 #include "MainWindow.h"
 #include <string>
-
 /* Constructor: Loads GUI and starts render loop*/
 MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v, title)
 {
+    setKeyRepeatEnabled(false); // pentru cantat la clape
+    settings = Settings();
     loadLayout(); // initialise all GUI controls
     render();     //render loop
 }
@@ -40,20 +41,24 @@ void MainWindow::loadLayout()
 }
 void MainWindow::render()
 {
-    Key *activeKey;
     while (sf::RenderWindow::isOpen())
     {
+        Key* activeKey;
         sf::Event event;
         while (sf::RenderWindow::pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 sf::RenderWindow::close();
 
+            /////////////////////////////
+            ////       Mouse         ////
+            ////////////////////////////
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     activeKey = piano->findKeyClicked(mapPixelToCoords(sf::Mouse::getPosition((*this))));
+                    activeKeys.insert(activeKey);
                     if (activeKey == nullptr)
                     {
                         std::cout << "click pe nimic\n";
@@ -64,13 +69,70 @@ void MainWindow::render()
                     }
                 }
             }
-            if(event.type == sf::Event::MouseButtonReleased) {
-                if(event.mouseButton.button == sf::Mouse::Left) {
-                    if(activeKey != nullptr) {
+            if (event.type == sf::Event::MouseButtonReleased)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    if (activeKey != nullptr)
+                    {
                         activeKey->setPressed(false);
+                        activeKeys.erase(activeKey);
                     }
-                } 
+                }
             }
+
+            ////////////////////////////
+            ////      Keyboard      ////
+            ////////////////////////////
+
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (settings.getKbKeys().contains(std::to_string(event.key.code)))
+                {
+                    activeKey = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
+                    activeKeys.insert(activeKey);
+                    if (activeKey!= nullptr)
+                     activeKey->setPressed(true);
+                }
+
+                /*for (auto &[key, pianoKeyIndex] : settings.getKbKeys().items())
+                {
+                    if (event.key.code == static_cast<sf::Keyboard::Key>(std::stoi(key)))
+                    {
+                        activeKey = piano->findKeyPressed(pianoKeyIndex);
+                        if (activeKey != nullptr)
+                        {
+                            activeKey->setPressed(true);
+                        }
+                    }
+                }*/
+            }
+
+            
+            if (event.type == sf::Event::KeyReleased)
+            {
+               if (settings.getKbKeys().contains(std::to_string(event.key.code)))
+                {
+                Key* toBeDeleted = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
+                toBeDeleted->setPressed (false);
+                activeKeys.erase(toBeDeleted);
+                }
+            }
+            
+            /*
+            // Structured bindings (C++17)
+            for (auto &[key, pianoKeyIndex] : settings.getKbKeys().items())
+            {
+                if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(std::stoi(key))))
+                {
+                    activeKey = piano->findKeyPressed(pianoKeyIndex);
+                    if (activeKey != nullptr)
+                    {
+                        activeKey->setPressed(true);
+                    }
+                }
+            }
+            */
         }
 
         sf::RenderWindow::clear(sf::Color(223, 219, 229, 255));

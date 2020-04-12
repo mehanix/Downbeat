@@ -6,6 +6,8 @@
 #include "Button.h"
 #include "Key.h"
 #include "Piano.h"
+#include "Settings.h"
+#include <unordered_set>
 /* ViewWindow: class that creates and renders the main GUI window */
 class MainWindow : public sf::RenderWindow{
     ///////////////////////
@@ -23,13 +25,14 @@ class MainWindow : public sf::RenderWindow{
 
     sf::Text adLabel;
 
-    //TODO remove
-    /*sf::Sprite key;
-    sf::Sprite key2;
-    sf::Texture keyTexture2;
-    sf::Sprite key3;*/
+    ////////////////////////
+    ///      Settings    ///
+    ////////////////////////
+    Settings settings;
+
 
     Piano *piano = piano->getInstance();
+    std::unordered_set<Key*> activeKeys;
     public:
        MainWindow(sf::VideoMode v, std::string title);
         void loadLayout();

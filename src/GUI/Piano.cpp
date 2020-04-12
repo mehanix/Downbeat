@@ -85,4 +85,10 @@ Key* Piano::findKeyClicked(sf::Vector2f mouse) {
     
 }
 
+Key* Piano::findKeyPressed(int keyIndex) {
+    return piano[keyIndex];
+}
+
+
+
 Piano *Piano::instance = nullptr;
