@@ -8,6 +8,7 @@
 #include "Piano.h"
 #include "Settings.h"
 #include <unordered_set>
+#include "Recorder.h"
 /* ViewWindow: class that creates and renders the main GUI window */
 class MainWindow : public sf::RenderWindow{
     ///////////////////////
@@ -30,6 +31,7 @@ class MainWindow : public sf::RenderWindow{
     ////////////////////////
     Settings settings;
 
+    Recorder recorder;
 
     Piano *piano = piano->getInstance();
     std::unordered_set<Key*> activeKeys;

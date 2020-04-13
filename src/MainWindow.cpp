@@ -11,6 +11,8 @@ MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v,
 
 void MainWindow::loadLayout()
 {
+
+    recorder.start();
     //font
     font.loadFromFile("res/gui/BellotaText.ttf");
 
@@ -55,6 +57,10 @@ void MainWindow::render()
             ////////////////////////////
             if (event.type == sf::Event::MouseButtonPressed)
             {
+                recorder.stop();
+                recorder.save();
+                std::cout<<"prr"<<std::endl;
+
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     activeKey = piano->findKeyClicked(mapPixelToCoords(sf::Mouse::getPosition((*this))));

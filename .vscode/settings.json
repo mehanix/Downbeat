@@ -55,6 +55,9 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "hash_map": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp"
     }
 }
