@@ -53,6 +53,6 @@ void Settings::generateConfig() {
     j[std::to_string(sf::Keyboard::Num7)] = 23;
 
     std::ofstream out("config.txt");
-    out << j.dump();
+    out << j.dump(4);
 
 }

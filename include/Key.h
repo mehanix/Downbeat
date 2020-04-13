@@ -17,10 +17,12 @@ class Key {
     sf::Vector2f pos;
     std::string kbKeyCode;
     sf::SoundBuffer buffer;  
-    sf::Sound sound;  
+    sf::Sound sound;
+    int noteId;  
     public:
     Key();
-    Key(sf::Texture& t, sf::Texture& t_Pressed);
+    Key(sf::Texture& t, sf::Texture& t_Pressed, int noteId);
+    int getId();
     virtual sf::Sprite& getSprite() = 0;
     virtual void playSound() = 0;
     virtual void setPosition(int x, int y) = 0;

@@ -32,6 +32,7 @@ class MainWindow : public sf::RenderWindow{
     Settings settings;
 
     Recorder recorder;
+    sf::Clock clock;
 
     Piano *piano = piano->getInstance();
     std::unordered_set<Key*> activeKeys;

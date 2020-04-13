@@ -1,6 +1,6 @@
 #include "BlackKey.h"
 
-BlackKey::BlackKey(sf::Texture &t, sf::Texture &t_Pressed, std::string soundPath) : Key(t, t_Pressed)
+BlackKey::BlackKey(sf::Texture &t, sf::Texture &t_Pressed,int noteId, std::string soundPath) : Key(t, t_Pressed, noteId)
 {
     buffer.loadFromFile("res/sounds/" + soundPath);
 }

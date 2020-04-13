@@ -13,12 +13,12 @@ Piano::Piano()
     /// Adauga clape albe
     for (int i = 0; i < 14; i++)
     {
-        piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed,std::to_string(i)+".ogg"));
+        piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed,i,std::to_string(i)+".ogg"));
     }
     /// Adauga clape negre
     for (int i = 0; i < 10; i++)
     {
-        piano.push_back(new BlackKey(tKeyBlack, tKeyBlackPressed,std::to_string(14+i) + ".ogg"));
+        piano.push_back(new BlackKey(tKeyBlack, tKeyBlackPressed,i,std::to_string(14+i) + ".ogg"));
     }
 
     setPositions();
