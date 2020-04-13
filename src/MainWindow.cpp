@@ -94,18 +94,6 @@ void MainWindow::render()
                     if (activeKey != nullptr)
                         activeKey->setPressed(true);
                 }
-
-                /*for (auto &[key, pianoKeyIndex] : settings.getKbKeys().items())
-                {
-                    if (event.key.code == static_cast<sf::Keyboard::Key>(std::stoi(key)))
-                    {
-                        activeKey = piano->findKeyPressed(pianoKeyIndex);
-                        if (activeKey != nullptr)
-                        {
-                            activeKey->setPressed(true);
-                        }
-                    }
-                }*/
             }
 
             if (event.type == sf::Event::KeyReleased)

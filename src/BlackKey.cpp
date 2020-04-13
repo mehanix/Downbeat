@@ -31,6 +31,6 @@ void BlackKey::setPressed(bool value)
     else
     {
         sprite.setTexture(texture);
-       // sound.stop();
+        sound.stop();
     }
 }
