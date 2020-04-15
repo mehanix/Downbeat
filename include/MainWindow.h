@@ -11,6 +11,8 @@
 #include "Recorder.h"
 #include "ButtonRecord.h"
 #include "ButtonLoad.h"
+#include "ButtonPlay.h"
+
 /* ViewWindow: class that creates and renders the main GUI window */
 class MainWindow : public sf::RenderWindow{
     ///////////////////////
@@ -31,9 +33,10 @@ class MainWindow : public sf::RenderWindow{
     sf::Texture t_buttonRecord;
     sf::Texture t_buttonSave;
     sf::Texture t_buttonLoad;
+    sf::Texture t_buttonPlay;
     ButtonRecord buttonRecord;
     ButtonLoad buttonLoad;
-
+    ButtonPlay buttonPlay;
     ////////////////////////
     ///      Settings    ///
     ////////////////////////

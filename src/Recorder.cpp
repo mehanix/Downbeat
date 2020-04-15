@@ -2,9 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include "Piano.h"
+#include <cstdlib>
+#include <ctime>
 Recorder::Recorder()
 {
     recording = false;
+    songData.clear();
 }
 
 std::string lastVal;
@@ -24,6 +27,8 @@ void Recorder::start()
 {
     if (!recording)
     {
+        songData.clear();
+        songData = json();
         recording = true;
         clock.restart();
         std::cout << "recording..." << std::endl;
@@ -32,10 +37,12 @@ void Recorder::start()
 
 void Recorder::save()
 {
+     std::srand(std::time(nullptr));
     if (recording)
     {
         recording = false;
-        std::ofstream file("filename.sng",  std::ios::out | std::ios::trunc);
+        std::ofstream file("songs/song_"+std::to_string(std::rand())+".sng",  std::ios::out | std::ios::trunc);
+        //TODO handle empty case
         songData["lastVal"] = std::stoi(lastVal);
         file << songData.dump();
         songData.clear();
@@ -46,7 +53,7 @@ void Recorder::save()
 
 void Recorder::play()
 {
-    //plays loaded songData TODO load songdata from file :)
+    if(!recording && !songData.empty()) {
     std::cout << "playing..." << std::endl;
     Piano *piano = piano->getInstance();
     int last = songData.value("lastVal", -1);
@@ -72,19 +79,20 @@ void Recorder::play()
 
     } while (counter < last);
     std::cout << "song done." << std::endl;  
+
+    } else {
+        std::cout<<"cannot play..."<<std::endl;
+    }
+    
 }
 
 void Recorder::load(char path[1024]) {
-    std::cout<<path<<std::endl;
-    
-    std::ifstream inputFile;
-    inputFile.open(path);
-        std::cout<<inputFile.rdbuf()<<std::endl;
-
-   // songData.clear();
-    //songData = json::parse(inputFile);
-
-   // std::cout<<songData<<std::endl;
+    songData.clear();
+    std::cout<<path;
+    std::ifstream inputFile(path);
+    songData = json::parse(inputFile);
+    std::cout<<" loaded..."<<std::endl;
+    inputFile.close();
 }
 
 bool Recorder::isRecording() {

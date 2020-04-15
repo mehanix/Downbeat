@@ -1,4 +1,3 @@
-#pragma once
 #include "ButtonRecord.h"
 #include "Recorder.h"
 void ButtonRecord::press(bool value)

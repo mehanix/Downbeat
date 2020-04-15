@@ -44,9 +44,11 @@ void MainWindow::loadLayout()
     t_buttonRecord.loadFromFile("res/gui/btn_record.png");
     t_buttonSave.loadFromFile("res/gui/btn_save.png");
     t_buttonLoad.loadFromFile("res/gui/btn_load.png");
+    t_buttonPlay.loadFromFile("res/gui/btn_play.png");
     //buttons
     buttonRecord = ButtonRecord(t_buttonRecord, t_buttonSave);
     buttonLoad = ButtonLoad(t_buttonLoad, t_buttonLoad);
+    buttonPlay = ButtonPlay(t_buttonPlay,t_buttonPlay);
 }
 void MainWindow::render()
 {
@@ -83,6 +85,11 @@ void MainWindow::render()
                         {
                             buttonLoad.press(true);
                         }
+                        if (buttonPlay.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
+                        {
+                            buttonPlay.press(true);
+                        }
+                        
                     }
                     else
                     {
@@ -153,6 +160,7 @@ void MainWindow::drawGUI()
     sf::RenderWindow::draw(adLabel);
     sf::RenderWindow::draw(buttonRecord.getSprite());
     sf::RenderWindow::draw(buttonLoad.getSprite());
+    sf::RenderWindow::draw(buttonPlay.getSprite());
     for (auto &k : piano->getKeys())
     {
         sf::RenderWindow::draw(k->getSprite());
