@@ -86,7 +86,7 @@ void Recorder::play()
     
 }
 
-void Recorder::load(char path[1024]) {
+void Recorder::load(std::string path) {
     songData.clear();
     std::cout<<path;
     std::ifstream inputFile(path);

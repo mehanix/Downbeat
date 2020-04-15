@@ -14,7 +14,8 @@
 #include "ButtonPlay.h"
 
 /* ViewWindow: class that creates and renders the main GUI window */
-class MainWindow : public sf::RenderWindow{
+class MainWindow : public sf::RenderWindow
+{
     ///////////////////////
     ///       GUI       ///
     ///////////////////////
@@ -46,13 +47,15 @@ class MainWindow : public sf::RenderWindow{
     sf::Clock clock;
 
     Piano *piano = piano->getInstance();
-    std::unordered_set<Key*> activeKeys;
-    public:
-       MainWindow(sf::VideoMode v, std::string title);
-        void loadLayout();
-        void render();
-        void drawGUI();
-       
+    std::unordered_set<Key *> activeKeys;
+
+public:
+    MainWindow(sf::VideoMode v, std::string title);
+    void loadLayout();
+    void render();
+    void drawGUI();
+    template <class T>
+    void checkPressed(T obj);
 };
 
 #endif

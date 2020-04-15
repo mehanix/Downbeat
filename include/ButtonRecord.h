@@ -6,7 +6,9 @@ class ButtonRecord : public Button {
     sf::Texture* t_Save;
     sf::Texture* t_Record;
     public:
-    ButtonRecord() : Button() {};
+    ButtonRecord() : Button() {
+        spriteState = "record";
+    };
     ButtonRecord(sf::Texture& t_rec, sf::Texture& t_save) : Button() {
           t_Record = &t_rec;
           t_Save = &t_save;  

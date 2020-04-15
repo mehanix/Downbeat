@@ -77,19 +77,9 @@ void MainWindow::render()
                     if (activeKey == nullptr)
                     {
                         // Button click logic :D
-                        if (buttonRecord.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
-                        {
-                            buttonRecord.press(true);
-                        }
-                        if (buttonLoad.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
-                        {
-                            buttonLoad.press(true);
-                        }
-                        if (buttonPlay.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
-                        {
-                            buttonPlay.press(true);
-                        }
-                        
+                        checkPressed(buttonRecord);
+                        checkPressed(buttonLoad);
+                        checkPressed(buttonPlay);
                     }
                     else
                     {
@@ -165,4 +155,12 @@ void MainWindow::drawGUI()
     {
         sf::RenderWindow::draw(k->getSprite());
     }
+}
+
+template <class T>
+void MainWindow::checkPressed (T obj) {
+  if(obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this))))) {
+      std::cout<<"pressed btn"<<std::endl;
+      obj.press(true);
+  }
 }
