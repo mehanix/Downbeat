@@ -12,8 +12,8 @@
 class Piano
 {
 private:
-    static Piano *instance;
-    std::vector<Key *> piano;
+    static std::shared_ptr<Piano> instance;
+    std::vector<std::shared_ptr<Key>> piano;
     sf::Texture tKeyWhite;
     sf::Texture tKeyBlack;
     sf::Texture tKeyWhitePressed;
@@ -23,10 +23,10 @@ private:
     Piano &operator=(Piano const &){}; // assignment operator is private
 
 public:
-    static Piano *getInstance()
+    static std::shared_ptr<Piano> getInstance()
     {
         if (!instance){
-            instance = new Piano;
+            instance.reset(new Piano);
             std::cout<<"pianul a fost creat"<<std::endl;
         }
         else{
@@ -40,10 +40,9 @@ public:
     }
 
     void setPositions();
-    std::vector<Key *> &getKeys();
-    Key* findKeyClicked(sf::Vector2f mouse);
-    Key* findKeyPressed(int keyIndex);
-
+    std::vector<std::shared_ptr<Key>> &getKeys();
+    std::shared_ptr<Key> findKeyClicked(sf::Vector2f mouse);
+    std::shared_ptr<Key> findKeyPressed(int keyIndex);
 };
 
 #endif

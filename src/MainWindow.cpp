@@ -54,7 +54,7 @@ void MainWindow::render()
 {
     while (sf::RenderWindow::isOpen())
     {
-        Key *activeKey;
+        std::shared_ptr<Key> activeKey;
         sf::Event event;
         while (sf::RenderWindow::pollEvent(event))
         {
@@ -77,9 +77,9 @@ void MainWindow::render()
                     if (activeKey == nullptr)
                     {
                         // Button click logic :D
-                        checkPressed(buttonRecord);
-                        checkPressed(buttonLoad);
-                        checkPressed(buttonPlay);
+                        checkPressed<ButtonRecord>(buttonRecord);
+                        checkPressed<ButtonLoad>(buttonLoad);
+                        checkPressed<ButtonPlay>(buttonPlay);
                     }
                     else
                     {
@@ -127,7 +127,7 @@ void MainWindow::render()
             {
                 if (settings.getKbKeys().contains(std::to_string(event.key.code)))
                 {
-                    Key *toBeDeleted = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
+                    std::shared_ptr<Key> toBeDeleted = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
                     recorder.log("up", toBeDeleted->getId());
 
                     toBeDeleted->setPressed(false);
@@ -158,7 +158,7 @@ void MainWindow::drawGUI()
 }
 
 template <class T>
-void MainWindow::checkPressed (T obj) {
+void MainWindow::checkPressed (T &obj) {
   if(obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this))))) {
       std::cout<<"pressed btn"<<std::endl;
       obj.press(true);

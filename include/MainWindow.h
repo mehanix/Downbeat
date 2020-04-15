@@ -46,8 +46,8 @@ class MainWindow : public sf::RenderWindow
     Recorder recorder;
     sf::Clock clock;
 
-    Piano *piano = piano->getInstance();
-    std::unordered_set<Key *> activeKeys;
+    std::shared_ptr<Piano> piano = piano->getInstance();
+    std::unordered_set<std::shared_ptr<Key>> activeKeys;
 
 public:
     MainWindow(sf::VideoMode v, std::string title);
@@ -55,7 +55,7 @@ public:
     void render();
     void drawGUI();
     template <class T>
-    void checkPressed(T obj);
+    void checkPressed(T &obj);
 };
 
 #endif

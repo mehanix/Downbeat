@@ -13,18 +13,18 @@ Piano::Piano()
     /// Adauga clape albe
     for (int i = 0; i < 14; i++)
     {
-        piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed,i,std::to_string(i)+".ogg"));
+        piano.push_back(std::make_shared<WhiteKey>(new WhiteKey(tKeyWhite, tKeyWhitePressed,i,std::to_string(i)+".ogg")));
     }
     /// Adauga clape negre
     for (int i = 0; i < 10; i++)
     {
-        piano.push_back(new BlackKey(tKeyBlack, tKeyBlackPressed,14+i,std::to_string(14+i) + ".ogg"));
+        piano.push_back(std::make_shared<BlackKey>(new BlackKey(tKeyBlack, tKeyBlackPressed,14+i,std::to_string(14+i) + ".ogg")));
     }
 
     setPositions();
 }
 
-std::vector<Key *> &Piano::getKeys()
+std::vector<std::shared_ptr<Key>> &Piano::getKeys()
 {
     return piano;
 }
@@ -45,12 +45,12 @@ void Piano::setPositions()
         // daca e clapa alba
         try
         {
-            if (dynamic_cast<WhiteKey *>(key))
+            if (dynamic_cast<WhiteKey*>(key.get()))
             {
                 key->setPosition(whiteX, Y);
                 whiteX += 48;
             }
-            else if (dynamic_cast<BlackKey *>(key))
+            else if (dynamic_cast<BlackKey*>(key.get()))
             {
                 blackCount++;
                 if (blackCount == 3 || blackCount == 6 || blackCount == 8)
@@ -71,7 +71,7 @@ void Piano::setPositions()
     }
 }
 
-Key* Piano::findKeyClicked(sf::Vector2f mouse) {
+std::shared_ptr<Key> Piano::findKeyClicked(sf::Vector2f mouse) {
 
     //std::cout<<mouse.x<<" "<<mouse.y<<'\n';
     for(int i = piano.size()-1; i>=0;i--) {
@@ -85,10 +85,10 @@ Key* Piano::findKeyClicked(sf::Vector2f mouse) {
     
 }
 
-Key* Piano::findKeyPressed(int keyIndex) {
+std::shared_ptr<Key>Piano::findKeyPressed(int keyIndex) {
     return piano[keyIndex];
 }
 
 
 
-Piano *Piano::instance = nullptr;
+std::shared_ptr<Piano> Piano::instance = nullptr;

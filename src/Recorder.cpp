@@ -55,7 +55,7 @@ void Recorder::play()
 {
     if(!recording && !songData.empty()) {
     std::cout << "playing..." << std::endl;
-    Piano *piano = piano->getInstance();
+    std::shared_ptr<Piano> piano = piano->getInstance();
     int last = songData.value("lastVal", -1);
     std::cout << last << std::endl;
     int counter = 0;

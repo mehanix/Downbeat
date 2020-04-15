@@ -3,8 +3,6 @@
 class ButtonPlay : public Button {
      public:
     ButtonPlay() : Button() {};
-    ButtonPlay(sf::Texture& t, sf::Texture& t_pressed) : Button(t,t_pressed) {
-        sprite.setPosition(600,210);
-    }
+    ButtonPlay(sf::Texture& t, sf::Texture& t_pressed);
     void press(bool value) override;
 };
