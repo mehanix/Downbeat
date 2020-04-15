@@ -48,13 +48,13 @@ void MainWindow::loadLayout()
     //buttons
     buttonRecord = ButtonRecord(t_buttonRecord, t_buttonSave);
     buttonLoad = ButtonLoad(t_buttonLoad, t_buttonLoad);
-    buttonPlay = ButtonPlay(t_buttonPlay,t_buttonPlay);
+    buttonPlay = ButtonPlay(t_buttonPlay, t_buttonPlay);
 }
 void MainWindow::render()
 {
+    std::shared_ptr<Key> activeKey;
     while (sf::RenderWindow::isOpen())
     {
-        std::shared_ptr<Key> activeKey;
         sf::Event event;
         while (sf::RenderWindow::pollEvent(event))
         {
@@ -92,7 +92,8 @@ void MainWindow::render()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    if (activeKey != nullptr)
+
+                    if (activeKey)
                     {
                         recorder.log("up", activeKey->getId());
                         activeKey->setPressed(false);
@@ -158,9 +159,11 @@ void MainWindow::drawGUI()
 }
 
 template <class T>
-void MainWindow::checkPressed (T &obj) {
-  if(obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this))))) {
-      std::cout<<"pressed btn"<<std::endl;
-      obj.press(true);
-  }
+void MainWindow::checkPressed(T &obj)
+{
+    if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
+    {
+        std::cout << "pressed btn" << std::endl;
+        obj.press(true);
+    }
 }
