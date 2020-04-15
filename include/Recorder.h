@@ -15,5 +15,6 @@ class Recorder {
     static void save();
     static void log(std::string type, int noteId);
     static void play();
+    static void load(char path[1024]);
     static bool isRecording();
 };

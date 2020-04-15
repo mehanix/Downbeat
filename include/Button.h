@@ -2,6 +2,7 @@
 #define BUTTON_H_INCLUDED
 #include <SFML/Graphics.hpp>
 class Button {
+     protected:
      sf::Texture texture;
      sf::Texture texturePressed;
      sf::Sprite sprite;
@@ -12,7 +13,6 @@ class Button {
         virtual void press(bool value) = 0;
         sf::Sprite& getSprite();
         sf::Sprite btnSprite;
-        static void loadTextures();
 
 };
 

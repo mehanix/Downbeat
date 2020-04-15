@@ -11,7 +11,7 @@ MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v,
 
 void MainWindow::loadLayout()
 {
-    
+
     //font
     font.loadFromFile("res/gui/BellotaText.ttf");
 
@@ -39,13 +39,14 @@ void MainWindow::loadLayout()
     adLabel.setCharacterSize(20);
     adLabel.setFillColor(sf::Color(26, 26, 26));
     adLabel.setPosition(515, 70);
-    
 
     //button textures
     t_buttonRecord.loadFromFile("res/gui/btn_record.png");
     t_buttonSave.loadFromFile("res/gui/btn_save.png");
+    t_buttonLoad.loadFromFile("res/gui/btn_load.png");
     //buttons
-    buttonRecord = ButtonRecord(t_buttonRecord,t_buttonSave);
+    buttonRecord = ButtonRecord(t_buttonRecord, t_buttonSave);
+    buttonLoad = ButtonLoad(t_buttonLoad, t_buttonLoad);
 }
 void MainWindow::render()
 {
@@ -74,11 +75,14 @@ void MainWindow::render()
                     if (activeKey == nullptr)
                     {
                         // Button click logic :D
-                        if (buttonRecord.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this))))) {
+                        if (buttonRecord.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
+                        {
                             buttonRecord.press(true);
                         }
-
-
+                        if (buttonLoad.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
+                        {
+                            buttonLoad.press(true);
+                        }
                     }
                     else
                     {
@@ -116,9 +120,9 @@ void MainWindow::render()
                         activeKey->setPressed(true);
                 }
 
-                if(event.key.code == sf::Keyboard::Dash) {
+                if (event.key.code == sf::Keyboard::Dash)
+                {
                     recorder.save();
-
                 }
             }
 
@@ -133,7 +137,6 @@ void MainWindow::render()
                     activeKeys.erase(toBeDeleted);
                 }
             }
-
         }
 
         sf::RenderWindow::clear(sf::Color(223, 219, 229, 255));
@@ -149,6 +152,7 @@ void MainWindow::drawGUI()
     sf::RenderWindow::draw(logo);
     sf::RenderWindow::draw(adLabel);
     sf::RenderWindow::draw(buttonRecord.getSprite());
+    sf::RenderWindow::draw(buttonLoad.getSprite());
     for (auto &k : piano->getKeys())
     {
         sf::RenderWindow::draw(k->getSprite());

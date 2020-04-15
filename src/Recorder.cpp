@@ -74,6 +74,19 @@ void Recorder::play()
     std::cout << "song done." << std::endl;  
 }
 
+void Recorder::load(char path[1024]) {
+    std::cout<<path<<std::endl;
+    
+    std::ifstream inputFile;
+    inputFile.open(path);
+        std::cout<<inputFile.rdbuf()<<std::endl;
+
+   // songData.clear();
+    //songData = json::parse(inputFile);
+
+   // std::cout<<songData<<std::endl;
+}
+
 bool Recorder::isRecording() {
     return recording;
 }
