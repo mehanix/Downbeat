@@ -43,6 +43,7 @@ public:
     std::vector<Key *> &getKeys();
     Key* findKeyClicked(sf::Vector2f mouse);
     Key* findKeyPressed(int keyIndex);
+
 };
 
 #endif

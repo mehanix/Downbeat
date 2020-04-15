@@ -1,15 +1,12 @@
 #include "Button.h"
 #include <iostream>
-Button::Button()
+Button::Button(sf::Texture &t, sf::Texture &t_pressed) : texture(t), texturePressed(t_pressed)
 {
-    std::cout << "initializez buton.."<<std::endl;
-    if (btnTexture.loadFromFile("res/btn_small.png"))
-        btnSprite.setTexture(btnTexture);
-    else
-        std::cout << "eroare la incarcarea texturii" << std::endl;
+    sprite.setTexture(t);
 }
 
 sf::Sprite& Button::getSprite()
 {
-    return btnSprite;
+    return sprite;
 }
+

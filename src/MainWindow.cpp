@@ -11,7 +11,7 @@ MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v,
 
 void MainWindow::loadLayout()
 {
-    //recorder.start();
+    
     //font
     font.loadFromFile("res/gui/BellotaText.ttf");
 
@@ -39,7 +39,13 @@ void MainWindow::loadLayout()
     adLabel.setCharacterSize(20);
     adLabel.setFillColor(sf::Color(26, 26, 26));
     adLabel.setPosition(515, 70);
-    recorder.start();
+    
+
+    //button textures
+    t_buttonRecord.loadFromFile("res/gui/btn_record.png");
+    t_buttonSave.loadFromFile("res/gui/btn_save.png");
+    //buttons
+    buttonRecord = ButtonRecord(t_buttonRecord,t_buttonSave);
 }
 void MainWindow::render()
 {
@@ -67,7 +73,12 @@ void MainWindow::render()
                     activeKeys.insert(activeKey);
                     if (activeKey == nullptr)
                     {
-                        std::cout << "click pe nimic\n";
+                        // Button click logic :D
+                        if (buttonRecord.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this))))) {
+                            buttonRecord.press(true);
+                        }
+
+
                     }
                     else
                     {
@@ -123,20 +134,6 @@ void MainWindow::render()
                 }
             }
 
-            /*
-            // Structured bindings (C++17)
-            for (auto &[key, pianoKeyIndex] : settings.getKbKeys().items())
-            {
-                if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(std::stoi(key))))
-                {
-                    activeKey = piano->findKeyPressed(pianoKeyIndex);
-                    if (activeKey != nullptr)
-                    {
-                        activeKey->setPressed(true);
-                    }
-                }
-            }
-            */
         }
 
         sf::RenderWindow::clear(sf::Color(223, 219, 229, 255));
@@ -151,6 +148,7 @@ void MainWindow::drawGUI()
     sf::RenderWindow::draw(panel);
     sf::RenderWindow::draw(logo);
     sf::RenderWindow::draw(adLabel);
+    sf::RenderWindow::draw(buttonRecord.getSprite());
     for (auto &k : piano->getKeys())
     {
         sf::RenderWindow::draw(k->getSprite());

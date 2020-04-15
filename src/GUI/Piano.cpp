@@ -18,7 +18,7 @@ Piano::Piano()
     /// Adauga clape negre
     for (int i = 0; i < 10; i++)
     {
-        piano.push_back(new BlackKey(tKeyBlack, tKeyBlackPressed,i,std::to_string(14+i) + ".ogg"));
+        piano.push_back(new BlackKey(tKeyBlack, tKeyBlackPressed,14+i,std::to_string(14+i) + ".ogg"));
     }
 
     setPositions();

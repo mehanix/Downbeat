@@ -9,6 +9,7 @@
 #include "Settings.h"
 #include <unordered_set>
 #include "Recorder.h"
+#include "ButtonRecord.h"
 /* ViewWindow: class that creates and renders the main GUI window */
 class MainWindow : public sf::RenderWindow{
     ///////////////////////
@@ -25,6 +26,10 @@ class MainWindow : public sf::RenderWindow{
     sf::Sprite logo;
 
     sf::Text adLabel;
+
+    sf::Texture t_buttonRecord;
+    sf::Texture t_buttonSave;
+    ButtonRecord buttonRecord;
 
     ////////////////////////
     ///      Settings    ///

@@ -5,13 +5,15 @@
 
 using json = nlohmann::json;
 class Recorder {
-    json songData;
-    sf::Clock clock;
+    static json songData;
+    static sf::Clock clock;
+    static bool recording;
     public:
     Recorder();
-    void start();
-    void stop();
-    void save();
-    void log(std::string type, int noteId);
-    void play();
+    static void start();
+    static void stop();
+    static void save();
+    static void log(std::string type, int noteId);
+    static void play();
+    static bool isRecording();
 };
