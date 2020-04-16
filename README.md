@@ -10,7 +10,7 @@
 
 ## Features
 * Play notes using mouse clicks/keyboard
-* Multiple note press supported
+* Press 1 or more notes at the same time
 * Record and save your songs
 * Load and play saved songs
 * Intuitive interface
@@ -18,7 +18,7 @@
 <br/>
 
 ## Installation
-Please install Zenity (dialog boxes):
+Please install Zenity (dialog boxes) and SFML (GUI):
 ```bash
 sudo apt install zenity libsfml-dev
 ```
