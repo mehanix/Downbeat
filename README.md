@@ -20,11 +20,9 @@
 ## Installation
 Please install Zenity (dialog boxes):
 ```bash
-sudo apt install Zenity
-
-brew install Zenity
+sudo apt install zenity libsfml-dev
 ```
-Then, in the Project folder, run `make` to compile the code.
+Then, in the root project folder, run `make` to compile the code.
 
 Run using `make run`.
 <br/><br/><br/>
