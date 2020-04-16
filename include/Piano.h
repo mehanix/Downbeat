@@ -28,22 +28,12 @@ public:
     {
         auto f = [=]() {
             if (!instance)
-            {
                 instance.reset(new Piano);
-                std::cout << "pianul a fost creat" << std::endl;
-            }
-            else
-            {
-                std::cout << "pianul a fost invocat" << std::endl;
-            }
             return instance;
         };
         return f();
     }
-    ~Piano()
-    {
-        std::cout << "papa pian" << std::endl;
-    }
+
 
     void setPositions();
     std::vector<std::shared_ptr<Key>> &getKeys();

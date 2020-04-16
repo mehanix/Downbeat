@@ -1,4 +1,5 @@
 #include "BlackKey.h"
+#include "Recorder.h"
 #include <cmath>
 BlackKey::BlackKey(sf::Texture &t, sf::Texture &t_Pressed,int noteId, std::string soundPath) : Key(t, t_Pressed, noteId)
 {
@@ -25,7 +26,8 @@ void BlackKey::setPressed(bool value)
 {
     if (value == true)
     {
-        sprite.setTexture(texturePressed);
+        if(!Recorder::isPlaying())
+            sprite.setTexture(texturePressed);
         sound.setVolume(100);
         playSound();
     }

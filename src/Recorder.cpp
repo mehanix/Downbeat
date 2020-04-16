@@ -3,105 +3,122 @@
 #include <fstream>
 #include "Piano.h"
 #include <cstdlib>
-#include <chrono>
 Recorder::Recorder()
 {
     recording = false;
+    playing = false;
     songData.clear();
 }
 
 std::string lastVal;
 void Recorder::log(std::string type, int noteId)
 {
-    if (recording)
+    if (recording && !playing)
     {
         float time = clock.getElapsedTime().asMicroseconds();
         std::string str = std::to_string((int)time);
-        std::cout << str << std::endl;
         songData[str] = {type, noteId};
-        std::cout << time << songData[str] << "\r\n";
         lastVal = str;
+        notePressed = type == "down" ? true : false;
     }
 }
 
 void Recorder::start()
 {
-    if (!recording)
+    if (!recording && !playing)
     {
         songData.clear();
         songData = json();
         recording = true;
         clock.restart();
-        std::cout << "recording..." << std::endl;
+        popen("zenity --notification --text=\"Downbeat 🎵\nRecording...\"", "r");
     }
+    else
+        popen("zenity --error --no-wrap  --text=\"Downbeat 🎵\nCannot record, busy...\"", "r");
 }
 
-void Recorder::save()
+bool Recorder::save(std::string path)
 {
-    const auto p1 = std::chrono::system_clock::now();
-    if (recording)
+    if (recording && !playing && !notePressed)
     {
         recording = false;
-        std::ofstream file("songs/song_"+std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
-            p1.time_since_epoch()).count())+".sng",  std::ios::out | std::ios::trunc);
+        std::ofstream file(path, std::ios::out | std::ios::trunc);
         //TODO handle empty case
         songData["lastVal"] = std::stoi(lastVal);
         file << songData.dump();
         songData.clear();
         file.close();
-        std::cout << "saved..." << std::endl;
+        popen("zenity --notification --text=\"Downbeat 🎵\nSaved!\"", "r");
+        return true;
     }
+    else
+        popen("zenity --error --no-wrap --title=\"Downbeat 🎵\" --text=\"Cannot save, busy...\"", "r");
+    return false;
 }
 
 void Recorder::play()
 {
-    if(!recording && !songData.empty()) {
-    std::cout << "playing..." << std::endl;
-    std::shared_ptr<Piano> piano = piano->getInstance();
-    int last = songData.value("lastVal", -1);
-    std::cout << last << std::endl;
-    int counter = 0;
-    std::string counterKey;
-    clock.restart();
-    do
+    if (!recording && !playing && !songData.empty())
     {
-        counter = clock.getElapsedTime().asMicroseconds();
-        counterKey = std::to_string(counter);
-        if (songData.contains(counterKey))
+        playing = true;
+        std::cout << "playing..." << std::endl;
+        std::shared_ptr<Piano> piano = piano->getInstance();
+        int last = songData.value("lastVal", -1);
+        int counter = 0;
+        std::string counterKey;
+        clock.restart();
+        do
         {
-            if (songData[counterKey][0] == "down")
+            counter = clock.getElapsedTime().asMicroseconds();
+            counterKey = std::to_string(counter);
+            if (songData.contains(counterKey))
             {
-                piano->findKeyPressed(songData[counterKey][1])->setPressed(true);
+                if (songData[counterKey][0] == "down")
+                {
+                    piano->findKeyPressed(songData[counterKey][1])->setPressed(true);
+                }
+                else
+                {
+                    piano->findKeyPressed(songData[counterKey][1])->setPressed(false);
+                }
             }
-            else
-            {
-                piano->findKeyPressed(songData[counterKey][1])->setPressed(false);
-            }
-        }
 
-    } while (counter < last);
-    std::cout << "song done." << std::endl;  
-
-    } else {
-        std::cout<<"cannot play..."<<std::endl;
+        } while (counter < last);
+        popen("zenity --notification --text=\"Downbeat 🎵\nSong finished.\"", "r");
+        playing = false;
     }
-    
+    else
+    {
+        popen("zenity --error --no-wrap --title=\"Downbeat 🎵\n\" --text=\"Cannot play song!\"", "r");
+    }
 }
 
-void Recorder::load(std::string path) {
-    songData.clear();
-    std::cout<<path;
-    std::ifstream inputFile(path);
-    songData = json::parse(inputFile);
-    std::cout<<" loaded..."<<std::endl;
-    inputFile.close();
+void Recorder::load(std::string path)
+{
+    if (!recording && !playing)
+    {
+        songData.clear();
+        std::ifstream inputFile(path);
+        songData = json::parse(inputFile);
+        popen("zenity --notification --text=\"Downbeat 🎵\nSong loaded.\"", "r");
+        inputFile.close();
+    }
+    else
+        popen("zenity --error --no-wrap --title=\"Downbeat 🎵\n\" --text=\"Cannot load!\"", "r");
 }
 
-
-bool Recorder::isRecording() {
+bool Recorder::isRecording()
+{
     return recording;
+}
+
+bool Recorder::isPlaying()
+{
+    return playing;
 }
 
 json Recorder::songData = json();
 sf::Clock Recorder::clock = sf::Clock();
 bool Recorder::recording = false;
+bool Recorder::playing = false;
+bool Recorder::notePressed = false;

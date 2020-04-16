@@ -1,4 +1,5 @@
 #include "WhiteKey.h"
+#include "Recorder.h"
 #include <cmath>
 WhiteKey::WhiteKey(sf::Texture &t, sf::Texture &t_Pressed, int noteId, std::string soundPath) : Key(t, t_Pressed, noteId)
 {
@@ -25,7 +26,8 @@ void WhiteKey::setPressed(bool value)
 {
     if (value == true)
     {
-        sprite.setTexture(texturePressed);
+        if(!Recorder::isPlaying())
+            sprite.setTexture(texturePressed);
         sound.setVolume(100);
         playSound();
     }
@@ -36,15 +38,12 @@ void WhiteKey::setPressed(bool value)
         float c;
         while (true)
         {
-            //double seconds = clock.getElapsedTime().asMilliseconds();
-            //std::cout<<seconds<<std::endl;
 
             //Init statement for if (C++17)
             if (double seconds = clock.getElapsedTime().asMilliseconds(); seconds < 100)
             {
                 //Atenuare sunet :) onKeyReleased
                 c = std::lerp(100, 0, seconds / 100.0);
-                //std::cout << seconds << " " << c << std::endl;
                 sound.setVolume(c);
                 if (c <= 5.0)
                 {
@@ -52,7 +51,6 @@ void WhiteKey::setPressed(bool value)
                 }
             }
         }
-        // sprite.setTexture(texture);
         sound.stop();
     }
 };

@@ -8,8 +8,8 @@ MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v,
     settings++;
 
     loadLayout(); // initialise all GUI controls
-    std::cout<<piano<<std::endl;
-    render();     //render loop
+    std::cout << piano << std::endl;
+    render(); //render loop
 }
 
 void MainWindow::loadLayout()
@@ -67,75 +67,75 @@ void MainWindow::render()
             /////////////////////////////
             ////       Mouse         ////
             ////////////////////////////
-            if (event.type == sf::Event::MouseButtonPressed)
+            if (!Recorder::isPlaying())
             {
-                std::cout << "prr" << std::endl;
-
-                if (event.mouseButton.button == sf::Mouse::Left)
+                if (event.type == sf::Event::MouseButtonPressed)
                 {
-                    activeKey = piano->findKeyClicked(mapPixelToCoords(sf::Mouse::getPosition((*this))));
-                    activeKeys.insert(activeKey);
-                    if (activeKey == nullptr)
+                    if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        // Button click logic :D
-                        checkPressed<ButtonRecord>(buttonRecord);
-                        checkPressed<ButtonLoad>(buttonLoad);
-                        checkPressed<ButtonPlay>(buttonPlay);
+                        activeKey = piano->findKeyClicked(mapPixelToCoords(sf::Mouse::getPosition((*this))));
+                        activeKeys.insert(activeKey);
+                        if (activeKey == nullptr)
+                        {
+                            // Button click logic :D
+                            checkPressed<ButtonRecord>(buttonRecord);
+                            checkPressed<ButtonLoad>(buttonLoad);
+                            checkPressed<ButtonPlay>(buttonPlay);
+                        }
+                        else
+                        {
+                            activeKey->setPressed(true);
+
+                            Recorder::log("down", activeKey->getId());
+                        }
                     }
-                    else
+                }
+                if (event.type == sf::Event::MouseButtonReleased)
+                {
+                    if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        activeKey->setPressed(true);
-                     
+
+                        if (activeKey)
+                        {
+                            Recorder::log("up", (*activeKey)["noteId"]);
+                            activeKey->setPressed(false);
+                            activeKeys.erase(activeKey);
+                        }
+                    }
+                }
+
+                ////////////////////////////
+                ////      Keyboard      ////
+                ////////////////////////////
+
+                //lambda function!
+                auto getKeyPressed = [=]() {
+                    return piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
+                };
+
+                if (event.type == sf::Event::KeyPressed)
+                {
+                    if (settings.getKbKeys().contains(std::to_string(event.key.code)))
+                    {
+                        activeKey = getKeyPressed();
                         Recorder::log("down", activeKey->getId());
+
+                        activeKeys.insert(activeKey);
+                        if (activeKey != nullptr)
+                            activeKey->setPressed(true);
                     }
                 }
-            }
-            if (event.type == sf::Event::MouseButtonReleased)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
 
-                    if (activeKey)
+                if (event.type == sf::Event::KeyReleased)
+                {
+                    if (settings.getKbKeys().contains(std::to_string(event.key.code)))
                     {
-                        Recorder::log("up", (*activeKey)["noteId"]);
-                        activeKey->setPressed(false);
-                        activeKeys.erase(activeKey);
+                        std::shared_ptr<Key> toBeDeleted = getKeyPressed();
+                        Recorder::log("up", toBeDeleted->getId());
+
+                        toBeDeleted->setPressed(false);
+                        activeKeys.erase(toBeDeleted);
                     }
-                }
-            }
-
-            ////////////////////////////
-            ////      Keyboard      ////
-            ////////////////////////////
-            
-            //lambda function!
-            auto getKeyPressed = [=]() {
-                return piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
-            };
-
-
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (settings.getKbKeys().contains(std::to_string(event.key.code)))
-                {
-                    activeKey = getKeyPressed();
-                    Recorder::log("down", activeKey->getId());
-
-                    activeKeys.insert(activeKey);
-                    if (activeKey != nullptr)
-                        activeKey->setPressed(true);
-                }
-            }
-
-            if (event.type == sf::Event::KeyReleased)
-            {
-                if (settings.getKbKeys().contains(std::to_string(event.key.code)))
-                {
-                    std::shared_ptr<Key> toBeDeleted = getKeyPressed();
-                    Recorder::log("up", toBeDeleted->getId());
-
-                    toBeDeleted->setPressed(false);
-                    activeKeys.erase(toBeDeleted);
                 }
             }
         }
@@ -165,8 +165,5 @@ template <class T>
 void MainWindow::checkPressed(T &obj)
 {
     if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
-    {
-        std::cout << "pressed btn" << std::endl;
         obj.press(true);
-    }
 }
