@@ -1,12 +1,35 @@
+<p align="center">
+  <img  src="https://i.imgur.com/MJmaTHC.png">
+</p>
+<p align="center">
+     Small playable virtual piano, written in C++ - (POO, an I, sem. II)
+</p>
 
+![pic](https://i.imgur.com/Xc2ZsXy.png)
 
-![logo](https://i.imgur.com/MJmaTHC.png)
----
-Small playable virtual piano, written in C++ (POO, anul I, sem II)
+## Features
+* Play notes using mouse clicks/keyboard
+* Multiple note press supported
+* Record and save your songs
+* Load and play saved songs
+* Intuitive interface
+* Runs on Linux/Mac
 
+## Installation
+Please install Zenity (dialog boxes):
+```bash
+sudo apt install Zenity
+
+brew install Zenity
+```
+Then, in the Project folder, run `make` to compile the code.
+
+Run using `make run`.
+
+## Course tasks
 **Cerințe obligatorii:**\
-🎹 Interfața grafica (în SDL, SFML, Qt, etc) cu API pentru C++ 🗹\
-🎹 RTTI 🗹
+🎹 Interfața grafica (în SDL, SFML, Qt, etc) cu API pentru C++ ☑️\
+🎹 RTTI ☑️
 ```cpp
 if (dynamic_cast<WhiteKey *>(key)) {
 
@@ -14,7 +37,7 @@ if (dynamic_cast<WhiteKey *>(key)) {
     whiteX += 48;
 }
 ```
-🎹 Abstract Classes  🗹
+🎹 Abstract Classes  ☑️
 ```cpp
 class Key {
 
@@ -26,14 +49,50 @@ class Key {
     virtual void setPosition(int x, int y) = 0;
 };
 ```
-🎹 Operatori (minim 4 * numărul oamenilor din echipa)\
-🎹 Heap Memory Allocation 🗹
+🎹 Operatori (minim 4 * numărul oamenilor din echipa) ☑️
+```cpp
+// Populates json with default settings, if empty :)
+Settings& Settings::operator++(int) {
+    if(std::ifstream f("config.txt"); f.peek() == std::ifstream::traits_type::eof())
+        generateConfig();
+    return *this;
+}
+```
+
+```cpp
+// Shows piano data.
+std::ostream& operator<<(std::ostream& out, std::shared_ptr<Piano> piano) {
+    out << "Pian cu "<< piano->getKeys().size() <<" clape.\n";
+    for(auto &i : piano->getKeys()) {
+        // ...
+    }
+    return out;
+ }
+```
+
+```cpp
+// Operator care acceseaza direct elementele vectorului vector<Key>piano, din clasa Piano
+std::shared_ptr<Key> Piano::operator[](int i) {
+    return piano[i];
+}
+```
+
+```cpp
+// operator care returneaza id-ul notei.
+int& Key::operator[](std::string s)
+{
+    if (s == "noteId")
+        return noteId;
+    
+}
+```
+🎹 Heap Memory Allocation ☑️
 ```cpp
 piano.cpp
 
-piano.push_back(new WhiteKey(tKeyWhite, tKeyWhitePressed));
+pianoKeys.push_back(std::shared_ptr<WhiteKey>(new WhiteKey(tKeyWhite, tKeyWhitePressed,i,std::to_string(i)+".ogg")));
 ```
-🎹 Exceptions 🗹
+🎹 Exceptions ☑️
 ```cpp
 piano.cpp
 
@@ -52,12 +111,12 @@ catch (int errCode) {
 }
 
 ```
-🎹 STL 🗹
+🎹 STL ☑️
 ```cpp
 #include <string>
 #include <vector>
 ```
-🎹 Lambda expressions 🗹
+🎹 Lambda expressions ☑️
 ```cpp
 // MainWindow.cpp
 auto getKeyPressed = [=]() {
@@ -76,7 +135,7 @@ if (event.type == sf::Event::KeyPressed)
     }
 }
 ```
-🎹 Templates 🗹
+🎹 Templates ☑️
 ```cpp
 // MainWindow.cpp
 
@@ -88,7 +147,7 @@ void MainWindow::checkPressed(T &obj)
         obj.press(true);
 }
 ```
-🎹 Smart pointers - minim 1 tip / proiect
+🎹 Smart pointers - minim 1 tip / proiect ☑️
 ```cpp
 // Piano.cpp
 
@@ -97,9 +156,9 @@ std::vector<std::shared_ptr<Key>> piano;
 
 ... and many more!
 ```
-🎹 Design patterns - minim 2 🗹
+🎹 Design patterns - minim 2 ☑️
 
-#### Singleton 🗹
+#### Singleton ☑️
 ```cpp
 /**
  * Piano: Singleton class that holds array of piano keys
@@ -123,7 +182,7 @@ public:
     }
 ```
 
-#### Facade 🗹
+#### Facade ☑️
 ```cpp
 // Recorder.h - facade that hides all recording logic.
 class Recorder {
@@ -141,7 +200,7 @@ class Recorder {
     static bool isRecording();
 };
 ```
-🎹 Features of C++17/20 (constexpr, consteval, constinit, fold expressions, init statement for if/switch, etc) 🗹
+🎹 Features of C++17/20 (constexpr, consteval, constinit, fold expressions, init statement for if/switch, etc) ☑️
 ```cpp
 //// Init statement for if (C++17) ////
 if (double seconds = clock.getElapsedTime().asMilliseconds(); seconds < 100)
