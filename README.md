@@ -57,10 +57,47 @@ catch (int errCode) {
 #include <string>
 #include <vector>
 ```
-🎹 Lambda expressions\
-🎹 Templates\
-🎹 Smart pointers - minim 1 tip / proiect\
-🎹 Design patterns - minim 2
+🎹 Lambda expressions 🗹
+```cpp
+// MainWindow.cpp
+auto getKeyPressed = [=]() {
+    return piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
+};
+
+//usage
+if (event.type == sf::Event::KeyPressed)
+{
+    if (settings.getKbKeys().contains(std::to_string(event.key.code)))
+    {
+
+        activeKey = getKeyPressed();
+        Recorder::log("down", activeKey->getId());
+        // ...
+    }
+}
+```
+🎹 Templates 🗹
+```cpp
+// MainWindow.cpp
+
+//// Definiton ////
+template <class T>
+void MainWindow::checkPressed(T &obj)
+{
+    if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
+        obj.press(true);
+}
+```
+🎹 Smart pointers - minim 1 tip / proiect
+```cpp
+// Piano.cpp
+
+static std::shared_ptr<Piano> instance;
+std::vector<std::shared_ptr<Key>> piano;
+
+... and many more!
+```
+🎹 Design patterns - minim 2 🗹
 
 #### Singleton 🗹
 ```cpp
@@ -86,12 +123,37 @@ public:
     }
 ```
 
-#### Facade?
+#### Facade 🗹
 ```cpp
-// Coming soon!
+// Recorder.h - facade that hides all recording logic.
+class Recorder {
+    static json songData;
+    static sf::Clock clock;
+    static bool recording;
+    public:
+    Recorder();
+    static void start();
+    static void stop();
+    static void save();
+    static void log(std::string type, int noteId);
+    static void play();
+    static void load(std::string path);
+    static bool isRecording();
+};
 ```
-🎹 Features of C++17/20 (constexpr, consteval, constinit, fold expressions, init statement for if/switch, etc) (minim 1 / proiect)
-
+🎹 Features of C++17/20 (constexpr, consteval, constinit, fold expressions, init statement for if/switch, etc) 🗹
+```cpp
+//// Init statement for if (C++17) ////
+if (double seconds = clock.getElapsedTime().asMilliseconds(); seconds < 100)
+{
+    //Atenuare sunet :) onKeyReleased
+    c = std::lerp(100, 0, seconds / 100.0);
+    //std::cout << seconds << " " << c << std::endl;
+    sound.setVolume(c);
+    if (c <= 5.0)
+        break;
+}
+```
 **Opțional => Bonus:**\
 🎹 Move semantics\
 🎹 Multithreading (la echipe de 3-4 oameni)\
