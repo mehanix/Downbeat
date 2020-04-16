@@ -27,15 +27,7 @@ class Key {
     virtual void playSound() = 0;
     virtual void setPosition(int x, int y) = 0;
     virtual void setPressed(bool value) = 0;
-
-
-    template<class T>
-    T* getResource() {
-            
-    }
-
-    ~Key() {
-        std::cout<<"papa clapa"<<std::endl;
-    }
+    int& operator[](std::string s);
+    
 };
 #endif

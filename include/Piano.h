@@ -14,7 +14,7 @@ class Piano
 {
 private:
     static std::shared_ptr<Piano> instance;
-    std::vector<std::shared_ptr<Key>> piano;
+    std::vector<std::shared_ptr<Key>> pianoKeys;
     sf::Texture tKeyWhite;
     sf::Texture tKeyBlack;
     sf::Texture tKeyWhitePressed;
@@ -50,7 +50,7 @@ public:
     std::shared_ptr<Key> findKeyClicked(sf::Vector2f mouse);
     std::shared_ptr<Key> findKeyPressed(int keyIndex);
 
-    friend std::ostream& operator<<(std::ostream& out, Piano piano);
+    friend std::ostream& operator<<(std::ostream& out, std::shared_ptr<Piano> piano);
     std::shared_ptr<Key> operator[](int i);
 };
 

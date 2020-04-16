@@ -5,8 +5,6 @@ using json = nlohmann::json;
 Settings::Settings() {
     settingsPath = std::ifstream ("config.txt",std::ifstream::in);
     settingsPath >> settingsJson;
-    std::cout << settingsJson["25"];
-    std::cout<<"set"<<std::endl;
 };
 
 json& Settings::getKbKeys() {
@@ -55,4 +53,12 @@ void Settings::generateConfig() {
     std::ofstream out("config.txt");
     out << j.dump(4);
 
+
+}
+
+// Populates json with default settings, if empty :)
+Settings& Settings::operator++(int) {
+    if(std::ifstream f("config.txt"); f.peek() == std::ifstream::traits_type::eof())
+        generateConfig();
+    return *this;
 }

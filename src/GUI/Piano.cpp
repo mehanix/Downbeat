@@ -9,16 +9,15 @@ Piano::Piano()
     tKeyBlack.loadFromFile("res/piano/key_black.png");
     tKeyBlackPressed.loadFromFile("res/piano/key_black_pressed.png");
     int pos = 64;
-    std::cout << "sunt un pian" << std::endl;
     /// Adauga clape albe
     for (int i = 0; i < 14; i++)
     {
-        piano.push_back(std::shared_ptr<WhiteKey>(new WhiteKey(tKeyWhite, tKeyWhitePressed,i,std::to_string(i)+".ogg")));
+        pianoKeys.push_back(std::shared_ptr<WhiteKey>(new WhiteKey(tKeyWhite, tKeyWhitePressed,i,std::to_string(i)+".ogg")));
     }
     /// Adauga clape negre
     for (int i = 0; i < 10; i++)
     {
-        piano.push_back(std::shared_ptr<BlackKey>(new BlackKey(tKeyBlack, tKeyBlackPressed,14+i,std::to_string(14+i) + ".ogg")));
+        pianoKeys.push_back(std::shared_ptr<BlackKey>(new BlackKey(tKeyBlack, tKeyBlackPressed,14+i,std::to_string(14+i) + ".ogg")));
     }
 
     setPositions();
@@ -27,7 +26,7 @@ Piano::Piano()
 
 std::vector<std::shared_ptr<Key>> &Piano::getKeys()
 {
-    return piano;
+    return pianoKeys;
 }
 
 /* calculeaza si seteaza pozitiile clapelor pe ecran */
@@ -40,7 +39,7 @@ void Piano::setPositions()
     int Y = 280;
 
     // iteram prin clape
-    for (auto &key : piano)
+    for (auto &key : pianoKeys)
     {
 
         // daca e clapa alba
@@ -75,11 +74,11 @@ void Piano::setPositions()
 std::shared_ptr<Key> Piano::findKeyClicked(sf::Vector2f mouse) {
 
     //std::cout<<mouse.x<<" "<<mouse.y<<'\n';
-    for(int i = piano.size()-1; i>=0;i--) {
-        sf::FloatRect bounds = piano[i]->getSprite().getGlobalBounds();
+    for(int i = pianoKeys.size()-1; i>=0;i--) {
+        sf::FloatRect bounds = pianoKeys[i]->getSprite().getGlobalBounds();
         if (bounds.contains(mouse))
         {
-            return piano[i];
+            return pianoKeys[i];
         }
     }
     return nullptr;
@@ -87,21 +86,22 @@ std::shared_ptr<Key> Piano::findKeyClicked(sf::Vector2f mouse) {
 }
 
 std::shared_ptr<Key>Piano::findKeyPressed(int keyIndex) {
-    return piano[keyIndex];
+    return pianoKeys[keyIndex];
 }
 
 
 
 std::shared_ptr<Piano> Piano::instance = nullptr;
 
-// Operator care acceseaza direct elementele vectorului piano, din clasa Piano
+// Operator care acceseaza direct elementele vectorului pianoKeys, din clasa Piano
 std::shared_ptr<Key> Piano::operator[](int i) {
-    return piano[i];
+    return pianoKeys[i];
 }
 
-std::ostream& operator<<(std::ostream& out, Piano piano) {
-    out << "Pian cu "<< piano.getKeys().size() <<" clape.\n";
-    for(auto &i : piano.getKeys()) {
+
+std::ostream& operator<<(std::ostream& out, std::shared_ptr<Piano> piano) {
+    out << "Pian cu "<< piano->getKeys().size() <<" clape.\n";
+    for(auto &i : piano->getKeys()) {
         if (dynamic_cast<WhiteKey*>(i.get()))
             out<<i.get()->getId()<<" Clapa alba\n";
         else if (dynamic_cast<BlackKey*>(i.get()))

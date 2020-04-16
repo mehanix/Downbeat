@@ -97,6 +97,7 @@ void Recorder::load(std::string path) {
     inputFile.close();
 }
 
+
 bool Recorder::isRecording() {
     return recording;
 }

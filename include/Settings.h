@@ -13,4 +13,5 @@ class Settings {
         Settings();
         void generateConfig();
         json& getKbKeys();
+        Settings& operator++(int);
 };

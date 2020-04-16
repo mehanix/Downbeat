@@ -5,7 +5,10 @@ MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v,
 {
     setKeyRepeatEnabled(false); // pentru cantat la clape
     settings = Settings();
+    settings++;
+
     loadLayout(); // initialise all GUI controls
+    std::cout<<piano<<std::endl;
     render();     //render loop
 }
 
@@ -66,8 +69,6 @@ void MainWindow::render()
             ////////////////////////////
             if (event.type == sf::Event::MouseButtonPressed)
             {
-                //recorder.stop();
-                //recorder.save();
                 std::cout << "prr" << std::endl;
 
                 if (event.mouseButton.button == sf::Mouse::Left)
@@ -84,6 +85,7 @@ void MainWindow::render()
                     else
                     {
                         activeKey->setPressed(true);
+                     
                         Recorder::log("down", activeKey->getId());
                     }
                 }
@@ -95,7 +97,7 @@ void MainWindow::render()
 
                     if (activeKey)
                     {
-                        Recorder::log("up", activeKey->getId());
+                        Recorder::log("up", (*activeKey)["noteId"]);
                         activeKey->setPressed(false);
                         activeKeys.erase(activeKey);
                     }
@@ -111,6 +113,19 @@ void MainWindow::render()
                 return piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
             };
 
+
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (settings.getKbKeys().contains(std::to_string(event.key.code)))
+                {
+                    activeKey = getKeyPressed();
+                    Recorder::log("down", activeKey->getId());
+
+                    activeKeys.insert(activeKey);
+                    if (activeKey != nullptr)
+                        activeKey->setPressed(true);
+                }
+            }
 
             if (event.type == sf::Event::KeyReleased)
             {

@@ -55,4 +55,4 @@ void WhiteKey::setPressed(bool value)
         // sprite.setTexture(texture);
         sound.stop();
     }
-}
+};
