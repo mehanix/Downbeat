@@ -1,4 +1,5 @@
 <p align="center">
+  <br>
   <img  src="https://i.imgur.com/MJmaTHC.png">
 </p>
 <p align="center">
@@ -14,6 +15,7 @@
 * Load and play saved songs
 * Intuitive interface
 * Runs on Linux/Mac
+<br/>
 
 ## Installation
 Please install Zenity (dialog boxes):
@@ -25,6 +27,7 @@ brew install Zenity
 Then, in the Project folder, run `make` to compile the code.
 
 Run using `make run`.
+<br/><br/><br/>
 
 ## Course tasks
 **Cerințe obligatorii:**\
