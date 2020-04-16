@@ -84,7 +84,7 @@ void MainWindow::render()
                     else
                     {
                         activeKey->setPressed(true);
-                        recorder.log("down", activeKey->getId());
+                        Recorder::log("down", activeKey->getId());
                     }
                 }
             }
@@ -95,7 +95,7 @@ void MainWindow::render()
 
                     if (activeKey)
                     {
-                        recorder.log("up", activeKey->getId());
+                        Recorder::log("up", activeKey->getId());
                         activeKey->setPressed(false);
                         activeKeys.erase(activeKey);
                     }
@@ -105,31 +105,19 @@ void MainWindow::render()
             ////////////////////////////
             ////      Keyboard      ////
             ////////////////////////////
+            
+            //lambda function!
+            auto getKeyPressed = [=]() {
+                return piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
+            };
 
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (settings.getKbKeys().contains(std::to_string(event.key.code)))
-                {
-                    activeKey = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
-                    recorder.log("down", activeKey->getId());
-
-                    activeKeys.insert(activeKey);
-                    if (activeKey != nullptr)
-                        activeKey->setPressed(true);
-                }
-
-                if (event.key.code == sf::Keyboard::Dash)
-                {
-                    recorder.save();
-                }
-            }
 
             if (event.type == sf::Event::KeyReleased)
             {
                 if (settings.getKbKeys().contains(std::to_string(event.key.code)))
                 {
-                    std::shared_ptr<Key> toBeDeleted = piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
-                    recorder.log("up", toBeDeleted->getId());
+                    std::shared_ptr<Key> toBeDeleted = getKeyPressed();
+                    Recorder::log("up", toBeDeleted->getId());
 
                     toBeDeleted->setPressed(false);
                     activeKeys.erase(toBeDeleted);

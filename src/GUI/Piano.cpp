@@ -24,6 +24,7 @@ Piano::Piano()
     setPositions();
 }
 
+
 std::vector<std::shared_ptr<Key>> &Piano::getKeys()
 {
     return piano;
@@ -92,3 +93,19 @@ std::shared_ptr<Key>Piano::findKeyPressed(int keyIndex) {
 
 
 std::shared_ptr<Piano> Piano::instance = nullptr;
+
+// Operator care acceseaza direct elementele vectorului piano, din clasa Piano
+std::shared_ptr<Key> Piano::operator[](int i) {
+    return piano[i];
+}
+
+std::ostream& operator<<(std::ostream& out, Piano piano) {
+    out << "Pian cu "<< piano.getKeys().size() <<" clape.\n";
+    for(auto &i : piano.getKeys()) {
+        if (dynamic_cast<WhiteKey*>(i.get()))
+            out<<i.get()->getId()<<" Clapa alba\n";
+        else if (dynamic_cast<BlackKey*>(i.get()))
+            out<<i.get()->getId()<<" Clapa neagra\n";
+    }
+    return out;
+ }

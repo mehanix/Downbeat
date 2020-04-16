@@ -42,10 +42,6 @@ class MainWindow : public sf::RenderWindow
     ///      Settings    ///
     ////////////////////////
     Settings settings;
-
-    Recorder recorder;
-    sf::Clock clock;
-
     std::shared_ptr<Piano> piano = piano->getInstance();
     std::unordered_set<std::shared_ptr<Key>> activeKeys;
 
@@ -56,6 +52,7 @@ public:
     void drawGUI();
     template <class T>
     void checkPressed(T &obj);
+   
 };
 
 #endif

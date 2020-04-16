@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "Key.h"
+#include <iostream>
 /**
  * Piano: Singleton class that holds array of piano keys
  * Calculates black/white key positions.
@@ -25,14 +26,19 @@ private:
 public:
     static std::shared_ptr<Piano> getInstance()
     {
-        if (!instance){
-            instance.reset(new Piano);
-            std::cout<<"pianul a fost creat"<<std::endl;
-        }
-        else{
-            std::cout<<"pianul a fost invocat"<<std::endl;
-        }
-        return instance;
+        auto f = [=]() {
+            if (!instance)
+            {
+                instance.reset(new Piano);
+                std::cout << "pianul a fost creat" << std::endl;
+            }
+            else
+            {
+                std::cout << "pianul a fost invocat" << std::endl;
+            }
+            return instance;
+        };
+        return f();
     }
     ~Piano()
     {
@@ -43,6 +49,12 @@ public:
     std::vector<std::shared_ptr<Key>> &getKeys();
     std::shared_ptr<Key> findKeyClicked(sf::Vector2f mouse);
     std::shared_ptr<Key> findKeyPressed(int keyIndex);
+
+    friend std::ostream& operator<<(std::ostream& out, Piano piano);
+    std::shared_ptr<Key> operator[](int i);
 };
+
+
+
 
 #endif

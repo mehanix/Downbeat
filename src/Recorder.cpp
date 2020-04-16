@@ -3,7 +3,7 @@
 #include <fstream>
 #include "Piano.h"
 #include <cstdlib>
-#include <ctime>
+#include <chrono>
 Recorder::Recorder()
 {
     recording = false;
@@ -23,6 +23,7 @@ void Recorder::log(std::string type, int noteId)
         lastVal = str;
     }
 }
+
 void Recorder::start()
 {
     if (!recording)
@@ -37,11 +38,12 @@ void Recorder::start()
 
 void Recorder::save()
 {
-     std::srand(std::time(nullptr));
+    const auto p1 = std::chrono::system_clock::now();
     if (recording)
     {
         recording = false;
-        std::ofstream file("songs/song_"+std::to_string(std::rand())+".sng",  std::ios::out | std::ios::trunc);
+        std::ofstream file("songs/song_"+std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
+            p1.time_since_epoch()).count())+".sng",  std::ios::out | std::ios::trunc);
         //TODO handle empty case
         songData["lastVal"] = std::stoi(lastVal);
         file << songData.dump();
