@@ -8,7 +8,7 @@ class Button {
      sf::Sprite sprite;
 
     public:
-        Button() {};
+        Button();
         Button(sf::Texture &t, sf::Texture &t_pressed);
         virtual void press(bool value) = 0;
         sf::Sprite& getSprite();

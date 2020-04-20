@@ -12,6 +12,7 @@ int Key::getId()
     return noteId;
 }
 
+// operator care returneaza id-ul notei.
 int& Key::operator[](std::string s)
 {
     if (s == "noteId")

@@ -20,7 +20,7 @@ private:
     sf::Texture tKeyWhitePressed;
     sf::Texture tKeyBlackPressed;
     Piano();
-    Piano(Piano const &){};            // copy constructor is private
+    Piano(Piano const &) = delete;     // copy constructor is private
     Piano &operator=(Piano const &){}; // assignment operator is private
 
 public:
@@ -34,17 +34,13 @@ public:
         return f();
     }
 
-
     void setPositions();
     std::vector<std::shared_ptr<Key>> &getKeys();
     std::shared_ptr<Key> findKeyClicked(sf::Vector2f mouse);
     std::shared_ptr<Key> findKeyPressed(int keyIndex);
 
-    friend std::ostream& operator<<(std::ostream& out, std::shared_ptr<Piano> piano);
+    friend std::ostream &operator<<(std::ostream &out, std::shared_ptr<Piano> piano);
     std::shared_ptr<Key> operator[](int i);
 };
-
-
-
 
 #endif

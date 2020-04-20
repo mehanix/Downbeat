@@ -14,12 +14,6 @@ json& Settings::getKbKeys() {
 
 
 
-
-bool is_empty(std::ifstream& pFile)
-{
-    return pFile.peek() == std::ifstream::traits_type::eof();
-}
-
 /// Genereaza fisierul de configurare cu setarile default
 /// Din pacate, Key Code-urile difera de la platforma la platforma
 /// Not much i can do :( bout this

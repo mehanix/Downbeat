@@ -6,15 +6,7 @@ class ButtonRecord : public Button {
     sf::Texture* t_Save;
     sf::Texture* t_Record;
     public:
-    ButtonRecord() : Button() {
-        spriteState = "record";
-    };
-    ButtonRecord(sf::Texture& t_rec, sf::Texture& t_save) : Button() {
-          t_Record = &t_rec;
-          t_Save = &t_save;  
-          getSprite().setTexture(*t_Record);
-          getSprite().setPosition(70,210);
-          spriteState = "record";
-    };
+    ButtonRecord();
+    ButtonRecord(sf::Texture& t_rec, sf::Texture& t_save);
     void press(bool value) override;
 };

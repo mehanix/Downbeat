@@ -10,7 +10,6 @@ Recorder::Recorder()
     songData.clear();
 }
 
-std::string lastVal;
 void Recorder::log(std::string type, int noteId)
 {
     if (recording && !playing)
@@ -43,7 +42,7 @@ bool Recorder::save(std::string path)
     {
         recording = false;
         std::ofstream file(path, std::ios::out | std::ios::trunc);
-        //TODO handle empty case
+
         songData["lastVal"] = std::stoi(lastVal);
         file << songData.dump();
         songData.clear();
@@ -117,8 +116,10 @@ bool Recorder::isPlaying()
     return playing;
 }
 
+// initializari variabile statice
 json Recorder::songData = json();
 sf::Clock Recorder::clock = sf::Clock();
 bool Recorder::recording = false;
 bool Recorder::playing = false;
 bool Recorder::notePressed = false;
+std::string Recorder::lastVal = "0";

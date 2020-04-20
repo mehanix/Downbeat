@@ -10,6 +10,8 @@ class Recorder {
     static bool recording;
     static bool playing;
     static bool notePressed; // TRUE if at least one note currently pressed (to prevent saving while note was not released, which would break song)
+    static std::string lastVal;
+
     public:
     Recorder();
     static void start();

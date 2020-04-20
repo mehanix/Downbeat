@@ -7,27 +7,28 @@
 /* 
     Key: Abstract class.
 */
-class Key {
+class Key
+{
 
-    protected:
+protected:
     sf::Texture texture;
     sf::Texture texturePressed;
     sf::Sprite sprite;
     sf::Text label;
     sf::Vector2f pos;
     std::string kbKeyCode;
-    sf::SoundBuffer buffer;  
+    sf::SoundBuffer buffer;
     sf::Sound sound;
-    int noteId;  
-    public:
+    int noteId;
+
+public:
     Key();
-    Key(sf::Texture& t, sf::Texture& t_Pressed, int noteId);
+    Key(sf::Texture &t, sf::Texture &t_Pressed, int noteId);
     int getId();
-    virtual sf::Sprite& getSprite() = 0;
+    virtual sf::Sprite &getSprite() = 0;
     virtual void playSound() = 0;
     virtual void setPosition(int x, int y) = 0;
     virtual void setPressed(bool value) = 0;
-    int& operator[](std::string s);
-    
+    int &operator[](std::string s);
 };
 #endif

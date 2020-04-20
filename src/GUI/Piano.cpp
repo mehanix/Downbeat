@@ -2,6 +2,15 @@
 #include "MainWindow.h"
 #include "WhiteKey.h"
 #include "BlackKey.h"
+
+struct ObjException : public std::exception
+{
+    const char *what() const throw()
+    {
+        return "bad object in piano array";
+    }
+};
+
 Piano::Piano()
 {
     tKeyWhite.loadFromFile("res/piano/key_white.png");
@@ -59,14 +68,11 @@ void Piano::setPositions()
                 blackX += 48;
             }
             else
-                throw 1438;
+                throw ObjException();
         }
-        catch (int errCode)
+        catch (ObjException& e)
         {
-            if (errCode == 1438)
-            {
-                std::cout << "Bad object in piano array" << '\n';
-            }
+            std::cerr<<e.what();
         }
     }
 }

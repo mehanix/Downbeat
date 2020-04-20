@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include <string>
+#include "Button.h"
 /* Constructor: Loads GUI and starts render loop*/
 MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v, title)
 {
@@ -161,9 +162,26 @@ void MainWindow::drawGUI()
     }
 }
 
+struct TypeException : public std::exception
+{
+    const char *what() const throw()
+    {
+        return "wrong object passed to checkPressed; not a button";
+    }
+};
+
 template <class T>
 void MainWindow::checkPressed(T &obj)
 {
-    if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
-        obj.press(true);
+    try
+    {
+        if (!dynamic_cast<Button *>(&obj)) //if not button
+            throw TypeException();
+        if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
+            obj.press(true);
+    }
+    catch (TypeException &e)
+    {
+        std::cerr << e.what();
+    }
 }

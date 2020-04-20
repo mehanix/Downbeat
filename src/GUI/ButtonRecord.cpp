@@ -1,6 +1,20 @@
 #include "ButtonRecord.h"
 #include "Recorder.h"
 #include <iostream>
+
+ButtonRecord::ButtonRecord() : Button()
+{
+    spriteState = "record";
+};
+ButtonRecord::ButtonRecord(sf::Texture &t_rec, sf::Texture &t_save) : Button()
+{
+    t_Record = &t_rec;
+    t_Save = &t_save;
+    getSprite().setTexture(*t_Record);
+    getSprite().setPosition(70, 210);
+    spriteState = "record";
+};
+
 void ButtonRecord::press(bool value)
 {
     if (spriteState == "record")
@@ -28,9 +42,10 @@ void ButtonRecord::press(bool value)
             {
                 getSprite().setTexture(*t_Record);
                 spriteState = "record";
-                popen("zenity --info --no-wrap --text=\"Save succesful!\"","r");
+                popen("zenity --info --no-wrap --text=\"Save succesful!\"", "r");
             }
         }
-        else popen("zenity --error --text=\"Save failed!\"","r");
+        else
+            popen("zenity --error --text=\"Save failed!\"", "r");
     }
 };
