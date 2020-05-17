@@ -106,23 +106,36 @@ pianoKeys.push_back(std::shared_ptr<WhiteKey>(new WhiteKey(tKeyWhite, tKeyWhiteP
 ```
 🎹 Exceptions ☑️
 ```cpp
-piano.cpp
+ObjException.h
 
-try {
-    if (...) {
-    // ...
-    }
-    else
-        throw 1438;
-}
-catch (int errCode) {
-    if (errCode == 1438)
+#include <exception>
+class ObjException : public std::exception
+{
+    const char *what() const throw()
     {
-        std::cout << "Bad object in piano array" << '\n';
+        return "bad object in piano array";
     }
-}
+};
+```
+```cpp
+Piano.cpp
+
+try
+  {
+      if (dynamic_cast<WhiteKey *>(key.get()))
+      {
+       // ...
+      }
+      else
+          throw ObjException();
+  }
+  catch (std::exception &e)
+  {
+      std::cerr << e.what();
+  }
 
 ```
+
 🎹 STL ☑️
 ```cpp
 #include <string>
@@ -153,15 +166,41 @@ if (event.type == sf::Event::KeyPressed)
 ```
 🎹 Templates ☑️
 ```cpp
-MainWindow.cpp
+MainWindow.cpp - Definition
 
-//// Definiton ////
 template <class T>
 void MainWindow::checkPressed(T &obj)
 {
-    if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
-        obj.press(true);
+    try
+    {
+        if (!dynamic_cast<Button *>(&obj)) //if not button
+            throw TypeException();
+        if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
+            obj.press(true);
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << e.what();
+    }
 }
+```
+
+```cpp
+MainWindow.cpp - Usage
+
+if (activeKey == nullptr)
+  {
+      // Button click logic :D
+      checkPressed<ButtonRecord>(buttonRecord);
+      checkPressed<ButtonLoad>(buttonLoad);
+      checkPressed<ButtonPlay>(buttonPlay);
+  }
+  else
+  {
+      activeKey->setPressed(true);
+
+      Recorder::log("down", activeKey->getId());
+  }
 ```
 🎹 Smart pointers - minim 1 tip / proiect ☑️
 ```cpp
