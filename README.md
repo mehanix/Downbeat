@@ -32,6 +32,8 @@ Run using `make run`.
 🎹 Interfața grafica (în SDL, SFML, Qt, etc) cu API pentru C++ ☑️\
 🎹 RTTI ☑️
 ```cpp
+piano.cpp
+
 if (dynamic_cast<WhiteKey *>(key)) {
 
     key->setPosition(whiteX, Y);
@@ -40,11 +42,12 @@ if (dynamic_cast<WhiteKey *>(key)) {
 ```
 🎹 Abstract Classes  ☑️
 ```cpp
+Key.h
+
 class Key {
 
-    /*
-       ...
-    */
+    // ...
+    
     virtual sf::Sprite& getSprite() = 0;
     virtual void playSound() = 0;
     virtual void setPosition(int x, int y) = 0;
@@ -52,6 +55,8 @@ class Key {
 ```
 🎹 Operatori (minim 4 * numărul oamenilor din echipa) ☑️
 ```cpp
+Settings.cpp
+
 // Populates json with default settings, if empty :)
 Settings& Settings::operator++(int) {
     if(std::ifstream f("config.txt"); f.peek() == std::ifstream::traits_type::eof())
@@ -61,6 +66,8 @@ Settings& Settings::operator++(int) {
 ```
 
 ```cpp
+Piano.cpp
+
 // Shows piano data.
 std::ostream& operator<<(std::ostream& out, std::shared_ptr<Piano> piano) {
     out << "Pian cu "<< piano->getKeys().size() <<" clape.\n";
@@ -72,6 +79,8 @@ std::ostream& operator<<(std::ostream& out, std::shared_ptr<Piano> piano) {
 ```
 
 ```cpp
+Piano.cpp
+
 // Operator care acceseaza direct elementele vectorului vector<Key>piano, din clasa Piano
 std::shared_ptr<Key> Piano::operator[](int i) {
     return piano[i];
@@ -79,6 +88,8 @@ std::shared_ptr<Key> Piano::operator[](int i) {
 ```
 
 ```cpp
+Key.cpp
+
 // operator care returneaza id-ul notei.
 int& Key::operator[](std::string s)
 {
@@ -116,15 +127,19 @@ catch (int errCode) {
 ```cpp
 #include <string>
 #include <vector>
+#include <exception>
+#include <unordered_set>
+#include <memory>
 ```
 🎹 Lambda expressions ☑️
 ```cpp
-// MainWindow.cpp
+MainWindow.cpp
+
 auto getKeyPressed = [=]() {
     return piano->findKeyPressed(settings.getKbKeys()[std::to_string(event.key.code)]);
 };
 
-//usage
+// usage
 if (event.type == sf::Event::KeyPressed)
 {
     if (settings.getKbKeys().contains(std::to_string(event.key.code)))
@@ -138,7 +153,7 @@ if (event.type == sf::Event::KeyPressed)
 ```
 🎹 Templates ☑️
 ```cpp
-// MainWindow.cpp
+MainWindow.cpp
 
 //// Definiton ////
 template <class T>
@@ -150,7 +165,7 @@ void MainWindow::checkPressed(T &obj)
 ```
 🎹 Smart pointers - minim 1 tip / proiect ☑️
 ```cpp
-// Piano.cpp
+Piano.cpp
 
 static std::shared_ptr<Piano> instance;
 std::vector<std::shared_ptr<Key>> piano;
@@ -168,19 +183,19 @@ std::vector<std::shared_ptr<Key>> piano;
  */
 class Piano
 {
-/// ...
-public:
-    static Piano *getInstance()
-    {
-        if (!instance){
-            instance = new Piano;
-            std::cout<<"pianul a fost creat"<<std::endl;
-        }
-        else{
-            std::cout<<"pianul a fost invocat"<<std::endl;
-        }
-        return instance;
-    }
+  // ...
+  public:
+      static Piano *getInstance()
+      {
+          if (!instance){
+              instance = new Piano;
+              std::cout<<"pianul a fost creat"<<std::endl;
+          }
+          else{
+              std::cout<<"pianul a fost invocat"<<std::endl;
+          }
+          return instance;
+      }
 ```
 
 #### Facade ☑️
@@ -203,6 +218,8 @@ class Recorder {
 ```
 🎹 Features of C++17/20 (constexpr, consteval, constinit, fold expressions, init statement for if/switch, etc) ☑️
 ```cpp
+WhiteKey.cpp
+
 //// Init statement for if (C++17) ////
 if (double seconds = clock.getElapsedTime().asMilliseconds(); seconds < 100)
 {
