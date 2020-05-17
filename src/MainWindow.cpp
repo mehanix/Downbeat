@@ -1,9 +1,11 @@
 #include "MainWindow.h"
 #include <string>
 #include "Button.h"
+#include "TypeException.h"
 /* Constructor: Loads GUI and starts render loop*/
 MainWindow::MainWindow(sf::VideoMode v, std::string title) : sf::RenderWindow(v, title)
 {
+    sf::Window::setFramerateLimit(30);
     setKeyRepeatEnabled(false); // pentru cantat la clape
     settings = Settings();
     settings++;
@@ -160,14 +162,6 @@ void MainWindow::drawGUI()
     {
         sf::RenderWindow::draw(k->getSprite());
     }
-}
-
-struct TypeException : public std::exception
-{
-    const char *what() const throw()
-    {
-        return "wrong object passed to checkPressed; not a button";
-    }
 };
 
 template <class T>
@@ -180,7 +174,7 @@ void MainWindow::checkPressed(T &obj)
         if (obj.getSprite().getGlobalBounds().contains(mapPixelToCoords(sf::Mouse::getPosition((*this)))))
             obj.press(true);
     }
-    catch (TypeException &e)
+    catch (std::exception &e)
     {
         std::cerr << e.what();
     }

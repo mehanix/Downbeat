@@ -2,14 +2,7 @@
 #include "MainWindow.h"
 #include "WhiteKey.h"
 #include "BlackKey.h"
-
-struct ObjException : public std::exception
-{
-    const char *what() const throw()
-    {
-        return "bad object in piano array";
-    }
-};
+#include "ObjException.h"
 
 Piano::Piano()
 {
@@ -21,17 +14,16 @@ Piano::Piano()
     /// Adauga clape albe
     for (int i = 0; i < 14; i++)
     {
-        pianoKeys.push_back(std::shared_ptr<WhiteKey>(new WhiteKey(tKeyWhite, tKeyWhitePressed,i,std::to_string(i)+".ogg")));
+        pianoKeys.push_back(std::shared_ptr<WhiteKey>(new WhiteKey(tKeyWhite, tKeyWhitePressed, i, std::to_string(i) + ".ogg")));
     }
     /// Adauga clape negre
     for (int i = 0; i < 10; i++)
     {
-        pianoKeys.push_back(std::shared_ptr<BlackKey>(new BlackKey(tKeyBlack, tKeyBlackPressed,14+i,std::to_string(14+i) + ".ogg")));
+        pianoKeys.push_back(std::shared_ptr<BlackKey>(new BlackKey(tKeyBlack, tKeyBlackPressed, 14 + i, std::to_string(14 + i) + ".ogg")));
     }
 
     setPositions();
 }
-
 
 std::vector<std::shared_ptr<Key>> &Piano::getKeys()
 {
@@ -54,12 +46,12 @@ void Piano::setPositions()
         // daca e clapa alba
         try
         {
-            if (dynamic_cast<WhiteKey*>(key.get()))
+            if (dynamic_cast<WhiteKey *>(key.get()))
             {
                 key->setPosition(whiteX, Y);
                 whiteX += 48;
             }
-            else if (dynamic_cast<BlackKey*>(key.get()))
+            else if (dynamic_cast<BlackKey *>(key.get()))
             {
                 blackCount++;
                 if (blackCount == 3 || blackCount == 6 || blackCount == 8)
@@ -70,17 +62,19 @@ void Piano::setPositions()
             else
                 throw ObjException();
         }
-        catch (ObjException& e)
+        catch (std::exception &e)
         {
-            std::cerr<<e.what();
+            std::cerr << e.what();
         }
     }
 }
 
-std::shared_ptr<Key> Piano::findKeyClicked(sf::Vector2f mouse) {
+std::shared_ptr<Key> Piano::findKeyClicked(sf::Vector2f mouse)
+{
 
     //std::cout<<mouse.x<<" "<<mouse.y<<'\n';
-    for(int i = pianoKeys.size()-1; i>=0;i--) {
+    for (int i = pianoKeys.size() - 1; i >= 0; i--)
+    {
         sf::FloatRect bounds = pianoKeys[i]->getSprite().getGlobalBounds();
         if (bounds.contains(mouse))
         {
@@ -88,30 +82,30 @@ std::shared_ptr<Key> Piano::findKeyClicked(sf::Vector2f mouse) {
         }
     }
     return nullptr;
-    
 }
 
-std::shared_ptr<Key>Piano::findKeyPressed(int keyIndex) {
+std::shared_ptr<Key> Piano::findKeyPressed(int keyIndex)
+{
     return pianoKeys[keyIndex];
 }
-
-
 
 std::shared_ptr<Piano> Piano::instance = nullptr;
 
 // Operator care acceseaza direct elementele vectorului pianoKeys, din clasa Piano
-std::shared_ptr<Key> Piano::operator[](int i) {
+std::shared_ptr<Key> Piano::operator[](int i)
+{
     return pianoKeys[i];
 }
 
-
-std::ostream& operator<<(std::ostream& out, std::shared_ptr<Piano> piano) {
-    out << "Pian cu "<< piano->getKeys().size() <<" clape.\n";
-    for(auto &i : piano->getKeys()) {
-        if (dynamic_cast<WhiteKey*>(i.get()))
-            out<<i.get()->getId()<<" Clapa alba\n";
-        else if (dynamic_cast<BlackKey*>(i.get()))
-            out<<i.get()->getId()<<" Clapa neagra\n";
+std::ostream &operator<<(std::ostream &out, std::shared_ptr<Piano> piano)
+{
+    out << "Pian cu " << piano->getKeys().size() << " clape.\n";
+    for (auto &i : piano->getKeys())
+    {
+        if (dynamic_cast<WhiteKey *>(i.get()))
+            out << i.get()->getId() << " Clapa alba\n";
+        else if (dynamic_cast<BlackKey *>(i.get()))
+            out << i.get()->getId() << " Clapa neagra\n";
     }
     return out;
- }
+}
